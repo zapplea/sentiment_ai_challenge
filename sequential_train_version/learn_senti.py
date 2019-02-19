@@ -23,7 +23,7 @@ conf = {
     'dev_data_path' : os.path.join(model_data_path, 'dev_han_fasttext.pkl'),
     'testa_data_path' : os.path.join(model_data_path, 'testa_han_fasttext.pkl'),
 
-    # "init_model": '/hdd/lujunyu/model/meituan/D_HAN_MC/attr/', #should be set for test
+    "init_model": '/datastore/liu121/sentidata2/result/aic_junyu/D_HAN_MC/attr/', #should be set for test
 
     "rand_seed": 1,
     "learning_rate":1e-3,
