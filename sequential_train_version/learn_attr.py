@@ -11,7 +11,7 @@ import os
 #     sys.path.append('/home/liu121/sentiment_ai_challenge')
 
 from model.attr_net import Attr_Net
-import .bin.attr_train as attr_train
+import bin.attr_train as attr_train
 
 # configure
 model_data_path = '/hdd/lujunyu/dataset/meituan/'
