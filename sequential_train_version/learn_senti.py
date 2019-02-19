@@ -1,21 +1,29 @@
+import getpass
+import sys
 import os
-os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+if getpass.getuser() == 'yibing':
+    sys.path.append('/home/yibing/Documents/csiro/sentiment_coarse_model')
+elif getpass.getuser() == 'lujunyu':
+    sys.path.append('/home/lujunyu/repository/sentiment_coarse_model')
+    os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "2"
+elif getpass.getuser() == 'liu121':
+    sys.path.append('/home/liu121/sentiment_coarse_model')
 
 from model.senti_net import Senti_Net
 from model.attr_net import Attr_Net
 import bin.senti_train as sent_train
 
 # configure
-model_data_path = '/hdd/lujunyu/dataset/meituan/'
-model_path = '/hdd/lujunyu/model/meituan/'
+model_data_path = '/datastore/liu121/sentidata2/data/aic2018_junyu'
+model_path = '/datastore/liu121/sentidata2/result/aic_junyu'
 
 conf = {
     'train_data_path' : os.path.join(model_data_path, 'train_han_fasttext.pkl'),
     'dev_data_path' : os.path.join(model_data_path, 'dev_han_fasttext.pkl'),
     'testa_data_path' : os.path.join(model_data_path, 'testa_han_fasttext.pkl'),
 
-    "init_model": '/hdd/lujunyu/model/meituan/D_HAN_MC/attr/', #should be set for test
+    # "init_model": '/hdd/lujunyu/model/meituan/D_HAN_MC/attr/', #should be set for test
 
     "rand_seed": 1,
     "learning_rate":1e-3,

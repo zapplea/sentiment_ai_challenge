@@ -15,7 +15,7 @@ def train(conf, attr_model, senti_model):
         np.random.seed(conf['rand_seed'])
 
     if not os.path.exists(conf['save_path']):
-        os.makedirs(conf['save_path'])
+        os.makedirs(conf['sa"init_model"ve_path'])
 
     # config display
     print('configurations: %s' % conf)
