@@ -14,8 +14,8 @@ from model.attr_net import Attr_Net
 import bin.attr_train as attr_train
 
 # configure
-model_data_path = '/hdd/lujunyu/dataset/meituan/'
-model_path = '/hdd/lujunyu/model/meituan/'
+model_data_path = '/datastore/liu121/sentidata2/data/aic2018_junyu'
+model_path = '/datastore/liu121/sentidata2/result/aic_junyu'
 
 conf = {
     'train_data_path' : os.path.join(model_data_path, 'train_han_fasttext.pkl'),
