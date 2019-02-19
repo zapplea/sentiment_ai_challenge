@@ -2,13 +2,13 @@ import getpass
 import sys
 import os
 if getpass.getuser() == 'yibing':
-    sys.path.append('/home/yibing/Documents/csiro/sentiment_coarse_model')
+    sys.path.append('/home/yibing/Documents/code/nlp/sentiment_ai_challenge')
 elif getpass.getuser() == 'lujunyu':
     sys.path.append('/home/lujunyu/repository/sentiment_coarse_model')
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
     os.environ["CUDA_VISIBLE_DEVICES"] = "2"
 elif getpass.getuser() == 'liu121':
-    sys.path.append('/home/liu121/sentiment_coarse_model')
+    sys.path.append('/home/liu121/sentiment_ai_challenge')
 
 from model.attr_net import Attr_Net
 import bin.attr_train as attr_train
