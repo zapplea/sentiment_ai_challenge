@@ -11,10 +11,6 @@ class DimAttrLabel:
                       'new_dev_data_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/new_dev_data.pkl'
                       }
         self.train_review, self.train_attr_label, self.train_senti_label, self.attribute_dic, self.word_dic, self.table = self.load_train_data()
-
-        with open('test.pkl','wb') as f:
-            pickle.dump(self.train_review,f,protocol=4)
-            exit()
         self.dev_review, self.dev_attr_label, self.dev_senti_label = self.load_dev_data()
 
     def load_train_data(self):
@@ -79,11 +75,11 @@ class DimAttrLabel:
         train_attr_label = self.process_attr_labels(id_to_attribute,new_attribute_to_id,self.train_attr_label)
         dev_attr_label = self.process_attr_labels(id_to_attribute, new_attribute_to_id, self.dev_attr_label)
         with open(self.configs['new_train_data_path'],'wb') as f:
-            for data in [self.train_review, train_attr_label,self.train_attr_label, self.train_senti_label, self.attribute_dic, self.word_dic, self.table]:
-                pickle.dump(data,f)
+            data = (self.train_review, train_attr_label,self.train_attr_label, self.train_senti_label, self.attribute_dic, self.word_dic, self.table)
+            pickle.dump(data,f,protocol=4)
         with open(self.configs['new_dev_data_path'],'wb') as f:
-            for data in [self.dev_review, dev_attr_label, self.dev_attr_label, self.dev_senti_label]:
-                pickle.dump(data,f)
+            data = (self.dev_review, dev_attr_label, self.dev_attr_label, self.dev_senti_label)
+            pickle.dump(data,f,protocol=4)
 
 if __name__ == "__main__":
     dal = DimAttrLabel()
