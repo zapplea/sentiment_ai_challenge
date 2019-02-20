@@ -6,11 +6,12 @@ class DimAttrLabel:
     def __init__(self):
         self.configs={'train_data_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/train_han_fasttext.pkl',
                       'testa_data_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/testa_han_fasttext.pkl',
-                      'dev_data_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/dev_han_fasttext.pkl'
+                      'dev_data_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/dev_han_fasttext.pkl',
+                      'new_train_data_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/new_train_data.pkl',
+                      'new_dev_data_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/new_dev_data.pkl'
                       }
         self.train_review, self.train_attr_label, self.train_senti_label, self.attribute_dic, self.word_dic, self.table = self.load_train_data()
         self.dev_review, self.dev_attr_label, self.dev_senti_label = self.load_dev_data()
-        self.test_review = self.load_test_data()
 
     def load_train_data(self):
 
@@ -45,12 +46,48 @@ class DimAttrLabel:
 
         return testa_review
 
+    def process_attr_labels(self,id_to_attribute,new_attribute_to_id,attr_label):
+        shape = np.shape(attr_label)
+        new_attr_label = []
+        for i in range(shape[0]):
+            new_label_instance = np.zeros(shape=(len(new_attribute_to_id),),dtype='float32')
+            label_instance = attr_label[i]
+            for j in range(shape[1]):
+                key = new_attribute_to_id[id_to_attribute[j]]
+                if label_instance[j] == 1:
+                    new_label_instance[key] = label_instance[j]
+            new_attr_label.append(new_label_instance)
+        return np.array(new_attr_label).astype('float32')
+
     def dim(self):
         print(self.attribute_dic)
         print('shape of train attr label: ',np.shape(self.train_attr_label))
         print(self.train_attr_label[0])
+        id_to_attribute = {}
+
+        for key in self.attribute_dic:
+            attr = key.split('_')[0]
+            id_to_attribute[self.attribute_dic[key]] = attr
+
+        new_attribute_to_id = {}
+        count = 0
+        for key in self.attribute_dic:
+            attr = key.split('_')[0]
+            if key not in new_attribute_to_id:
+                new_attribute_to_id[attr]=count
+                count+=1
+        train_attr_label = self.process_attr_labels(id_to_attribute,new_attribute_to_id,self.train_attr_label)
+        dev_attr_label = self.process_attr_labels(id_to_attribute, new_attribute_to_id, self.dev_attr_label)
+        print(self.train_attr_label[0])
+        print(train_attr_label[0])
+        exit()
+        with open(self.configs['new_train_data_path'],'wb') as f:
+            pickle.dump((self.train_review, train_attr_label, self.train_senti_label, self.attribute_dic, self.word_dic, self.table),f)
+        with open(self.configs['new_dev_data_path'],'wb') as f:
+            pickle.dump((self.dev_review, dev_attr_label, self.dev_senti_label),f)
+
 
 
 if __name__ == "__main__":
     dal = DimAttrLabel()
-    dal.dim()
+    train_attr_label,dev_attr_label = dal.dim()
