@@ -47,3 +47,7 @@ class DimAttrLabel:
 
     def dim(self):
         print(self.attribute_dic)
+
+if __name__ == "__main__":
+    dal = DimAttrLabel()
+    dal.dim()
