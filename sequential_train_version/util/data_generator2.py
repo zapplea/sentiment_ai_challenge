@@ -7,11 +7,13 @@ class DataGenerator():
     def __init__(self, configs):
         self.configs = configs
         self.train_review, self.train_attr_label, self.train_senti_label, self.attribute_dic, self.word_dic, self.table = self.load_train_data()
+        print('train attr label shape:',np.shape(self.train_attr_label))
         self.vocab = list(self.word_dic.keys())
         self.train_data_size = len(self.train_review)
         print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())), ' : Finish Loading Training Data')
 
         self.dev_review, self.dev_attr_label, self.dev_senti_label = self.load_dev_data()
+        print('dev attr label shape: ',np.shape(self.dev_attr_label))
         self.dev_data_size = len(self.dev_review)
         print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())), ' : Finish Loading Dev Data')
 
