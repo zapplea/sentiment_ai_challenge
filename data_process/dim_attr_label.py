@@ -75,9 +75,11 @@ class DimAttrLabel:
         train_attr_label = self.process_attr_labels(id_to_attribute,new_attribute_to_id,self.train_attr_label)
         dev_attr_label = self.process_attr_labels(id_to_attribute, new_attribute_to_id, self.dev_attr_label)
         with open(self.configs['new_train_data_path'],'wb') as f:
+            print(np.shape(train_attr_label))
             data = (self.train_review, train_attr_label,self.train_attr_label, self.train_senti_label, self.attribute_dic, self.word_dic, self.table)
             pickle.dump(data,f,protocol=4)
         with open(self.configs['new_dev_data_path'],'wb') as f:
+            print(np.shape(dev_attr_label))
             data = (self.dev_review, dev_attr_label, self.dev_attr_label, self.dev_senti_label)
             pickle.dump(data,f,protocol=4)
 
