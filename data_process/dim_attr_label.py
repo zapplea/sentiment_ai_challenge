@@ -13,7 +13,7 @@ class DimAttrLabel:
         self.train_review, self.train_attr_label, self.train_senti_label, self.attribute_dic, self.word_dic, self.table = self.load_train_data()
 
         with open('test.pkl','wb') as f:
-            pickle.dump(f,self.train_review)
+            pickle.dump(self.train_review,f,protocol=4)
             exit()
         self.dev_review, self.dev_attr_label, self.dev_senti_label = self.load_dev_data()
 
