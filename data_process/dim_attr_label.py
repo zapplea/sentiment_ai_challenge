@@ -70,7 +70,7 @@ class DimAttrLabel:
         count = 0
         for key in self.attribute_dic:
             attr = key.split('_')[0]
-            if key not in new_attribute_to_id:
+            if attr not in new_attribute_to_id:
                 new_attribute_to_id[attr]=count
                 count+=1
         print(id_to_attribute)
