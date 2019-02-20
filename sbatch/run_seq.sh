@@ -12,5 +12,5 @@ module load python/3.7.2
 module load tensorflow/1.12.0-py36-gpu
 echo "loaded"
 
-python ../sequential_train_version/learn_attr.py &&
-python ../sequential_train_version/learn_senti.py
+python ../sequential_train_version/learn_attr2.py
+# python ../sequential_train_version/learn_senti.py
