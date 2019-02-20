@@ -1,6 +1,8 @@
 import getpass
 import sys
 import os
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+os.environ["CUDA_VISIBLE_DEVICES"] = "2"
 # if getpass.getuser() == 'yibing':
 #     sys.path.append('/home/yibing/Documents/code/nlp/sentiment_ai_challenge')
 # elif getpass.getuser() == 'lujunyu':
