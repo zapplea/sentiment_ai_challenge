@@ -47,6 +47,8 @@ class DimAttrLabel:
 
     def dim(self):
         print(self.attribute_dic)
+        print('shape of train attr label: ',np.shape(self.train_attr_label))
+        
 
 if __name__ == "__main__":
     dal = DimAttrLabel()
