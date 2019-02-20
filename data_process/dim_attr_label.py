@@ -61,10 +61,7 @@ class DimAttrLabel:
 
     def dim(self):
         print(self.attribute_dic)
-        print('shape of train attr label: ',np.shape(self.train_attr_label))
-        print(self.train_attr_label[0])
         id_to_attribute = {}
-
         for key in self.attribute_dic:
             attr = key.split('_')[0]
             id_to_attribute[self.attribute_dic[key]] = attr
@@ -76,6 +73,8 @@ class DimAttrLabel:
             if key not in new_attribute_to_id:
                 new_attribute_to_id[attr]=count
                 count+=1
+        print(id_to_attribute)
+        print(new_attribute_to_id)
         train_attr_label = self.process_attr_labels(id_to_attribute,new_attribute_to_id,self.train_attr_label)
         dev_attr_label = self.process_attr_labels(id_to_attribute, new_attribute_to_id, self.dev_attr_label)
         print(self.train_attr_label[0])
