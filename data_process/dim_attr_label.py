@@ -11,6 +11,8 @@ class DimAttrLabel:
                       'new_dev_data_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/new_dev_data.pkl'
                       }
         self.train_review, self.train_attr_label, self.train_senti_label, self.attribute_dic, self.word_dic, self.table = self.load_train_data()
+
+        pickle.dump()
         self.dev_review, self.dev_attr_label, self.dev_senti_label = self.load_dev_data()
 
     def load_train_data(self):
@@ -75,7 +77,7 @@ class DimAttrLabel:
         train_attr_label = self.process_attr_labels(id_to_attribute,new_attribute_to_id,self.train_attr_label)
         dev_attr_label = self.process_attr_labels(id_to_attribute, new_attribute_to_id, self.dev_attr_label)
         with open(self.configs['new_train_data_path'],'wb') as f:
-            for data in [self.attribute_dic,]:
+            for data in [self.train_review, train_attr_label,self.train_attr_label, self.train_senti_label, self.attribute_dic, self.word_dic, self.table]:
                 pickle.dump(data,f)
         with open(self.configs['new_dev_data_path'],'wb') as f:
             for data in [self.dev_review, dev_attr_label, self.dev_attr_label, self.dev_senti_label]:
