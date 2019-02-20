@@ -72,11 +72,12 @@ class DimAttrLabel:
             if attr not in new_attribute_to_id:
                 new_attribute_to_id[attr]=count
                 count+=1
+        print('new attribute to id:\n',new_attribute_to_id)
         train_attr_label = self.process_attr_labels(id_to_attribute,new_attribute_to_id,self.train_attr_label)
         dev_attr_label = self.process_attr_labels(id_to_attribute, new_attribute_to_id, self.dev_attr_label)
         with open(self.configs['new_train_data_path'],'wb') as f:
             print(np.shape(train_attr_label))
-            data = (self.train_review, train_attr_label,self.train_attr_label, self.train_senti_label, self.attribute_dic, self.word_dic, self.table)
+            data = (self.train_review, train_attr_label,self.train_attr_label, self.train_senti_label, new_attribute_to_id, self.word_dic, self.table)
             pickle.dump(data,f,protocol=4)
         with open(self.configs['new_dev_data_path'],'wb') as f:
             print(np.shape(dev_attr_label))
