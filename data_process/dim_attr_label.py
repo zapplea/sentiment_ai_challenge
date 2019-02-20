@@ -83,4 +83,4 @@ class DimAttrLabel:
 
 if __name__ == "__main__":
     dal = DimAttrLabel()
-    train_attr_label,dev_attr_label = dal.dim()
+    dal.dim()
