@@ -6,7 +6,7 @@ import numpy as np
 import json
 
 import util.evaluation as eva
-from util.data_generator import DataGenerator
+from util.data_generator2 import DataGenerator
 import util.operation as op
 
 
