@@ -40,3 +40,7 @@ class MergeReview:
     def merge(self):
         print(np.shape(self.train_review))
         print(self.train_review[0])
+
+if __name__ == "__main__":
+    mr = MergeReview()
+    mr.merge()
