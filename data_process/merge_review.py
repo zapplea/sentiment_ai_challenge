@@ -38,25 +38,39 @@ class MergeReview:
         return dev_review, dev_attr_label, dev_senti_label
 
     def max_len(self,reviews):
+        """
+        1141
+        :param reviews:
+        :return:
+        """
         condition = np.equal(reviews,0)
         # (batch , review len, sentence len)
         reviews = np.where(condition,np.zeros_like(reviews),np.ones_like(reviews))
         return np.max(np.sum(np.sum(reviews,axis=2),axis=1))
 
-    def merge(self,review):
-        print('review shape: \n',np.shape(self.train_review))
-        shape = np.shape(self.train_review)
+    def merge(self,reviews):
+        print('review shape: \n',np.shape(reviews))
+        shape = np.shape(reviews)
+        merged_reviews = []
         pad_id = 0
+        max_len = 1141
         for i in range(shape[0]):
+            new_review = []
             for j in range(shape[1]):
                 for m in range(shape[2]):
-                    pass
+                    if reviews[i][j][m] !=pad_id:
+                        new_review.append(reviews[i][j][m])
+            while len(new_review)<max_len:
+                new_review.append(0)
+            merged_reviews.append(new_review)
+        merged_reviews = np.array(merged_reviews).astype('int32')
+        return merged_reviews
 
     def main(self):
-        size1 = self.max_len(self.train_review)
-        size2 = self.max_len(self.dev_review)
-        print(size1)
-        print(size2)
+        merged_train_review = self.merge(self.train_review)
+        print(np.shape(merged_train_review))
+        merged_dev_review = self.merge(self.dev_review)
+        print(np.shape(merged_dev_review))
 
 if __name__ == "__main__":
     mr = MergeReview()
