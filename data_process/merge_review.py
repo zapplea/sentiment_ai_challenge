@@ -57,20 +57,23 @@ class MergeReview:
         for i in range(shape[0]):
             new_review = []
             for j in range(shape[1]):
-                for m in range(shape[2]):
-                    if reviews[i][j][m] !=pad_id:
-                        new_review.append(reviews[i][j][m])
-            while len(new_review)<max_len:
-                new_review.append(0)
+                sentence = reviews[i][j]
+                condition = np.not_equal(sentence,pad_id)
+                new_review+= sentence[condition].tolist()
+            if len(new_review)<max_len:
+                pad_len = max_len - len(new_review)
+                new_review+=np.zeros(shape=(pad_len,)).tolist()
             merged_reviews.append(new_review)
+
         merged_reviews = np.array(merged_reviews).astype('int32')
         return merged_reviews
 
     def main(self):
         merged_train_review = self.merge(self.train_review)
-        print(np.shape(merged_train_review))
+        print('merged_train_review: ',np.shape(merged_train_review))
+
         merged_dev_review = self.merge(self.dev_review)
-        print(np.shape(merged_dev_review))
+        print('merged_dev_review: ',np.shape(merged_dev_review))
 
 if __name__ == "__main__":
     mr = MergeReview()
