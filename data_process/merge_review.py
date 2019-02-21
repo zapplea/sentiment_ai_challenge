@@ -9,8 +9,8 @@ class MergeReview:
         self.configs = {'train_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/train_han_fasttext.pkl',
                         'testa_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/testa_han_fasttext.pkl',
                         'dev_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/dev_han_fasttext.pkl',
-                        'merged_train_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/merged_train_data.pkl',
-                        'merged_dev_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/merged_dev_data.pkl'
+                        'merged_train_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/merged_train_data_trail.pkl',
+                        'merged_dev_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/merged_dev_data_trail.pkl'
                         }
         self.train_review, self.train_attr_label, self.train_senti_label, self.attribute_dic, self.word_dic, self.table = self.load_train_data()
         self.dev_review, self.dev_attr_label, self.dev_senti_label = self.load_dev_data()
@@ -69,12 +69,12 @@ class MergeReview:
         return merged_reviews
 
     def main(self):
-        merged_train_review = self.merge(self.train_review)
+        merged_train_review = self.merge(self.train_review)[:500]
         print('merged_train_review: ',np.shape(merged_train_review))
         with open(self.configs['merged_train_data_path'],'wb') as f:
             pickle.dump((merged_train_review, self.train_attr_label, self.train_senti_label, self.attribute_dic, self.word_dic, self.table),f,protocol=4)
-        merged_dev_review = self.merge(self.dev_review)
-        print('merged_dev_review: ',np.shape(merged_dev_review))
+        merged_dev_review = self.merge(self.dev_review)[:500]
+        print(self.configs['merged_dev_review'],np.shape(merged_dev_review))
         with open('merged_dev_data_path','wb') as f:
             pickle.dump((merged_dev_review,self.dev_attr_label, self.dev_senti_label),f,protocol=4)
 
