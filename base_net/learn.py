@@ -1,9 +1,11 @@
 from model import Model
 from senti_datafeeder import DataFeeder
 from train import SentiTrain
+import tensorflow as tf
 
 def main(config):
-    model_dic = Model.build_senti_net(config)
+    with tf.device('/gpu:0'):
+        model_dic = Model.build_senti_net(config)
     datafeeder = DataFeeder(config['datafeeder'])
     train = SentiTrain(config,datafeeder)
     train.train(model_dic)

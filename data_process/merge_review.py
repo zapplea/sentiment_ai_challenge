@@ -69,14 +69,15 @@ class MergeReview:
         return merged_reviews
 
     def main(self):
-        merged_train_review = self.merge(self.train_review)[:500]
+        print('run program: ')
+        merged_train_review = self.merge(self.train_review)
         print('merged_train_review: ',np.shape(merged_train_review))
         with open(self.configs['merged_train_data_path'],'wb') as f:
-            pickle.dump((merged_train_review, self.train_attr_label, self.train_senti_label, self.attribute_dic, self.word_dic, self.table),f,protocol=4)
-        merged_dev_review = self.merge(self.dev_review)[:500]
-        print(self.configs['merged_dev_review'],np.shape(merged_dev_review))
-        with open('merged_dev_data_path','wb') as f:
-            pickle.dump((merged_dev_review,self.dev_attr_label, self.dev_senti_label),f,protocol=4)
+            pickle.dump((merged_train_review[:500], self.train_attr_label[:500], self.train_senti_label[:500], self.attribute_dic, self.word_dic, self.table),f,protocol=4)
+        merged_dev_review = self.merge(self.dev_review)
+        print('merged_dev_review: ',np.shape(merged_dev_review))
+        with open(self.configs['merged_dev_data_path'],'wb') as f:
+            pickle.dump((merged_dev_review[:500],self.dev_attr_label[:500], self.dev_senti_label[:500]),f,protocol=4)
 
 if __name__ == "__main__":
     mr = MergeReview()
