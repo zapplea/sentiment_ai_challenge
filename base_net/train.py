@@ -28,7 +28,7 @@ class SentiTrain:
         with graph.as_default():
             table = tf.get_collection('table')[0]
             senti_X = tf.get_collection('senti_X_id')[0]
-            senti_Y = tf.get_collection('senti_Y')
+            senti_Y = tf.get_collection('senti_Y')[0]
             senti_loss = model['loss']
             senti_pred = model['pred']
             saver = model['saver']
