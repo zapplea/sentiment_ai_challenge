@@ -6,7 +6,7 @@ import tensorflow as tf
 def main(config):
     with tf.device('/gpu:0'):
         model = Model(config)
-        model_dic = model.build_senti_net(config)
+        model_dic = model.build_senti_net()
     datafeeder = DataFeeder(config['datafeeder'])
     train = SentiTrain(config,datafeeder)
     train.train(model_dic)
