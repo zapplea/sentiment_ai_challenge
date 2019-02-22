@@ -40,17 +40,19 @@ class SentiTrain:
             sess.run(init, feed_dict={table:self.df.table})
             for epoch in range(self.config['train']['epoch_num']):
                 dataset = self.df.data_generator('train')
+                print('epoch: %d'%epoch)
+                print('Start Training ...')
                 for _, senti_labels_data, sentences_data in dataset:
-                    print('senti Y. shape: ',np.shape(senti_labels_data))
-                    exit()
                     sess.run(senti_loss,feed_dict={senti_Y:senti_labels_data,senti_X:sentences_data})
+                print('Done!')
+
                 if epoch%self.config['train']['mod']==0:
                     dataset = self.df.data_generator('val')
                     senti_loss_vec = []
                     senti_TP_vec = []
                     senti_FP_vec = []
                     senti_FN_vec = []
-
+                    print('Start Testing ...')
                     for _, senti_labels_data, sentences_data in dataset:
                         senti_loss_value,senti_pred_value = sess.run([senti_loss,senti_pred],feed_dict={senti_X:sentences_data})
 
@@ -63,6 +65,7 @@ class SentiTrain:
                         senti_FP_vec.append(FP_data)
                         senti_FN_vec.append(FN_data)
                         senti_loss_vec.append(senti_loss_value)
+                    print('Done!')
                     TP_vec = np.sum(senti_TP_vec, axis=0)
                     FP_vec = np.sum(senti_FP_vec, axis=0)
                     FN_vec = np.sum(senti_FN_vec, axis=0)
