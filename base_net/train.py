@@ -16,7 +16,7 @@ class SentiTrain:
                 path.mkdir(parents=True, exist_ok=True)
         self.config['train']['report_filePath'] = self.config['train']['report_filePath'] + '/base_report_reg%s_lr%s.info' % \
                                                (str(self.config['model']['reg_rate']), str(self.config['model']['lr']))
-        self.config['train']['sr_path'] = self.config['train']['senti_sr_path'] + '/base_ckpt_reg%s_lr%s/model.ckpt'%\
+        self.config['train']['sr_path'] = self.config['train']['sr_path'] + '/base_ckpt_reg%s_lr%s/model.ckpt'%\
                                           (str(self.config['model']['reg_rate']), str(self.config['model']['lr']))
 
         self.outf = open(self.config['train']['report_filePath'], 'w+')
