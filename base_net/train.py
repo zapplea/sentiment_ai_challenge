@@ -38,6 +38,7 @@ class SentiTrain:
         config.gpu_options.allow_growth = True
         with tf.Session(graph=graph,config=config) as sess:
             sess.run(init, feed_dict={table:self.df.table})
+            self.mt.report('\n#####sentiment metrics#####\n', self.outf, 'report')
             for epoch in range(self.config['train']['epoch_num']):
                 dataset = self.df.data_generator('train')
                 print('epoch: %d'%epoch)
@@ -72,7 +73,7 @@ class SentiTrain:
                     FN_vec = np.sum(senti_FN_vec, axis=0)
                     loss_value = np.mean(senti_loss_vec)
 
-                    self.mt.report('\n#####sentiment metrics#####\n', self.outf, 'report')
+                    self.mt.report('\nepoch:%d\n'%epoch, self.outf, 'report')
                     self.mt.report('Val_loss:%.10f' % loss_value, self.outf, 'report')
                     _f1_score = self.mt.calculate_metrics_score(TP_vec=TP_vec, FP_vec=FP_vec, FN_vec=FN_vec,
                                                                 outf=self.outf,
