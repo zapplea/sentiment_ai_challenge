@@ -41,6 +41,8 @@ class SentiTrain:
             for epoch in range(self.config['train']['epoch_num']):
                 dataset = self.df.data_generator('train')
                 for _, senti_labels_data, sentences_data in dataset:
+                    print('senti Y. shape: ',np.shape(senti_labels_data))
+                    exit()
                     sess.run(senti_loss,feed_dict={senti_Y:senti_labels_data,senti_X:sentences_data})
                 if epoch%self.config['train']['mod']==0:
                     dataset = self.df.data_generator('val')
