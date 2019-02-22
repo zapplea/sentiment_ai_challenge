@@ -54,7 +54,7 @@ class SentiTrain:
                     senti_FN_vec = []
                     print('Start Testing ...')
                     for _, senti_labels_data, sentences_data in dataset:
-                        senti_loss_value,senti_pred_value = sess.run([senti_loss,senti_pred],feed_dict={senti_X:sentences_data})
+                        senti_loss_value,senti_pred_value = sess.run([senti_loss,senti_pred],feed_dict={senti_X:sentences_data,senti_Y:senti_labels_data})
 
                         senti_labels_data = self.mt.caliberate(senti_labels_data)
                         senti_pred_data = self.mt.caliberate(senti_pred_value)
