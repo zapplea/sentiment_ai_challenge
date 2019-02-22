@@ -33,7 +33,7 @@ class Layers:
         return mask
 
     def word_embedding_table(self):
-        table = tf.placeholder(shape=(self.config['model']['vocab_size'], self.config['model']['word_dim']))
+        table = tf.placeholder(shape=(self.config['model']['vocab_size'], self.config['model']['word_dim']),dtype="float32")
         tf.add_to_collection('table', table)
         embedding = tf.Variable(table)
         return embedding
