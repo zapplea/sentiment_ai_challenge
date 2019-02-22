@@ -11,8 +11,6 @@ def main(config):
     train.train(model_dic)
 
 if __name__ == "__main__":
-    data_root = ''
-    save_root = ''
     config = {'model':{'biSRU':{'layers_num':2,
                                 'rnn_dim':300},
                        'lr': 1e-3,
@@ -32,3 +30,4 @@ if __name__ == "__main__":
               'datafeeder':{'batch_size':50,
                             'train_data_file_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/merged_train_data_trail.pkl',
                             'test_data_file_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/merged_dev_data_trail.pkl'}}
+    main(config)
