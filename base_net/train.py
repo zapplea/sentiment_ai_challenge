@@ -58,9 +58,10 @@ class SentiTrain:
 
                         senti_labels_data = self.mt.caliberate(senti_labels_data)
                         senti_pred_data = self.mt.caliberate(senti_pred_value)
-                        TP_data = self.mt.TP(senti_labels_data[:, :-4], senti_pred_data[:, :-4])
-                        FP_data = self.mt.FP(senti_labels_data[:, :-4], senti_pred_data[:, :-4])
-                        FN_data = self.mt.FN(senti_labels_data[:, :-4], senti_pred_data[:, :-4])
+                        
+                        TP_data = self.mt.TP(senti_labels_data, senti_pred_data)
+                        FP_data = self.mt.FP(senti_labels_data, senti_pred_data)
+                        FN_data = self.mt.FN(senti_labels_data, senti_pred_data)
                         senti_TP_vec.append(TP_data)
                         senti_FP_vec.append(FP_data)
                         senti_FN_vec.append(FN_data)
