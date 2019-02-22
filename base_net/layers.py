@@ -146,7 +146,7 @@ class Layers:
         norm = tf.contrib.layers.l2_regularizer(self.config['model']['reg_rate'])(W)
         tf.add_to_collection('reg',norm)
         # (batch size, attr num, senti num)
-        score = tf.matmul(sent_repr,W,transpose_b=True)
+        score = tf.tensordot(sent_repr,W,axes=[[2],[1]])
 
         return score
 
