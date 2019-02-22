@@ -69,7 +69,6 @@ class MergeReview:
         return merged_reviews
 
     def main(self):
-        print('run program: ')
         merged_train_review = self.merge(self.train_review)
         print('merged_train_review: ',np.shape(merged_train_review))
         with open(self.configs['merged_train_data_path'],'wb') as f:
@@ -80,5 +79,6 @@ class MergeReview:
             pickle.dump((merged_dev_review[:500],self.dev_attr_label[:500], self.dev_senti_label[:500]),f,protocol=4)
 
 if __name__ == "__main__":
+    print('run program: ')
     mr = MergeReview()
     mr.main()
