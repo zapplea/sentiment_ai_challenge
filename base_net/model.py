@@ -27,6 +27,6 @@ class Model:
         senti_score = self.layers.senti_score(sent_repr)
         pred = self.layers.senti_prediction(senti_score)
         loss = self.layers.senti_loss(senti_score,senti_Y)
-        train_step = tf.train.AdamOptimizer(self.config['lr']).minimize(loss)
+        train_step = tf.train.AdamOptimizer(self.config['model']['lr']).minimize(loss)
         saver = tf.train.Saver(tf.global_variables(), max_to_keep=2)
         return {'loss':loss,'pred':pred,'graph':tf.get_default_graph(),'train_step':train_step,'saver':saver}
