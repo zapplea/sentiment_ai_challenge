@@ -113,7 +113,7 @@ class Layers:
         :return:
         """
         # (batch size, max sentence len, attr num)
-        temp = tf.matmul(X,A,transpose_b=True)
+        temp = tf.tensordot(X,A,axes=[[2],[1]])
         # (attr num, batch size, max sent len)
         temp = tf.transpose(temp,perm=(2,0,1))
         # (attr num, batch size, max sent len)
