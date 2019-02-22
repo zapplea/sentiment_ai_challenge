@@ -12,7 +12,7 @@ def main(config):
     train.train(model_dic)
 
 if __name__ == "__main__":
-    config = {'model':{'biSRU':{'layers_num':2,
+    config = {'model':{'biSRU':{'layers_num':3,
                                 'rnn_dim':300},
                        'lr': 1e-3,
                        'reg_rate':1e-4,
@@ -24,7 +24,7 @@ if __name__ == "__main__":
                        'padding_word_index':0,},
               'train':{'epoch_num':20,
                        'report_filePath':'/datastore/liu121/sentidata2/report/aic_junyu',
-                       'early_stop_limit':1,
+                       'early_stop_limit':5,
                        'mod':1,
                        'sr_path':'/datastore/liu121/sentidata2/result/aic_junyu',
                        'attributes_num':20,},
