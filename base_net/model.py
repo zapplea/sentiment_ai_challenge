@@ -5,7 +5,6 @@ class Model:
     def __init__(self,config):
         self.config = config
         self.layers = Layers(config)
-        print(type(self.layers))
     def build_senti_net(self):
         X_id = self.layers.X_input()
         senti_Y = self.layers.senti_Y_input()
