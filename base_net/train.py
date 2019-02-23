@@ -31,6 +31,7 @@ class SentiTrain:
             senti_Y = tf.get_collection('senti_Y')[0]
             senti_loss = model['loss']
             senti_pred = model['pred']
+            train_step = model['train_step']
             saver = model['saver']
 
             init = tf.global_variables_initializer()
@@ -44,7 +45,7 @@ class SentiTrain:
                 print('epoch: %d'%epoch)
                 print('Start Training ...')
                 for _, senti_labels_data, sentences_data in dataset:
-                    sess.run(senti_loss,feed_dict={senti_Y:senti_labels_data,senti_X:sentences_data})
+                    sess.run(train_step,feed_dict={senti_Y:senti_labels_data,senti_X:sentences_data})
                 print('Done!')
 
                 if epoch%self.config['train']['mod']==0:
