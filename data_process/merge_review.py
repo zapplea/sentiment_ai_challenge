@@ -10,10 +10,30 @@ class MergeReview:
                         'testa_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/testa_han_fasttext.pkl',
                         'dev_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/dev_han_fasttext.pkl',
                         'merged_train_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/merged_train_data.pkl',
-                        'merged_dev_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/merged_dev_data.pkl'
+                        'merged_dev_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/merged_dev_data.pkl',
+                        'tencent_wordsVec_path':'/datastore/liu121/wordEmb/tencent_cn/tencent_wordsVec.pkl'
                         }
         self.train_review, self.train_attr_label, self.train_senti_label, self.attribute_dic, self.word_dic, self.table = self.load_train_data()
         self.dev_review, self.dev_attr_label, self.dev_senti_label = self.load_dev_data()
+
+    def load_tecentWordsVec(self):
+        with open(self.configs['tencent_wordsVec_path'],'rb') as f:
+            dic = pickle.load(f)
+            tenc_id2word_dic = dic['id2word']
+            tenc_word2id_dic = dic['word2id']
+            tenc_wordsVec = dic['wordsVec']
+        fasttext_id2word_dic = {}
+        for key in self.word_dic:
+            fasttext_id2word_dic[self.word_dic[key]] = key
+
+        new_wordsVec = []
+        new_word_dic = {}
+        for i in range(len(fasttext_id2word_dic)):
+            word = fasttext_id2word_dic[i]
+            tenc_id = tenc_word2id_dic[word]
+            new_wordsVec.append(tenc_wordsVec[tenc_id])
+            new_word_dic[word]=i
+        return new_word_dic, new_wordsVec
 
     def load_train_data(self):
         assert os.path.exists(self.configs['train_data_path']) and os.path.getsize(self.configs['train_data_path']) > 0
@@ -71,8 +91,9 @@ class MergeReview:
     def main(self):
         merged_train_review = self.merge(self.train_review)
         print('merged_train_review: ',np.shape(merged_train_review))
+        new_word_dic, new_wordsVec = self.load_tecentWordsVec()
         with open(self.configs['merged_train_data_path'],'wb') as f:
-            pickle.dump((merged_train_review, self.train_attr_label, self.train_senti_label, self.attribute_dic, self.word_dic, self.table),f,protocol=4)
+            pickle.dump((merged_train_review, self.train_attr_label, self.train_senti_label, self.attribute_dic, new_word_dic, new_wordsVec),f,protocol=4)
         merged_dev_review = self.merge(self.dev_review)
         print('merged_dev_review: ',np.shape(merged_dev_review))
         with open(self.configs['merged_dev_data_path'],'wb') as f:
