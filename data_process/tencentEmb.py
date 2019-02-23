@@ -32,7 +32,8 @@ def write(fname,data):
         pickle.dump(data,f,protocol=4)
 
 if __name__ == "__main__":
-    fname = "/datastore/liu121/wordEmb/tencent_cn/Tencent_AILab_ChineseEmbedding.txt"
-    data = read(fname)
-    fname="/datastore/liu121/wordEmb/tencent_cn/tencent_wordsVec.pkl"
-    write(fname,data)
+    # fname = "/datastore/liu121/wordEmb/tencent_cn/Tencent_AILab_ChineseEmbedding.txt"
+    # data = read(fname)
+    # fname="/datastore/liu121/wordEmb/tencent_cn/tencent_wordsVec.pkl"
+    # write(fname,data)
+    pass
