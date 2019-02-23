@@ -13,14 +13,15 @@ def read(fname):
                 continue
             count+=1
             line = line.replace('\n','')
-            print(repr(line))
             line_ls = line.split(' ')
-            print(line_ls)
             word = line_ls[0]
             vec = np.array(line_ls[1:]).astype('float32')
+            assert word not in word2id_dic
             word2id_dic[word]=count-1
             id2word_dic[count-1]=word
             wordsVec_ls.append(vec)
+        print('wordsVec shape: ',np.shape(np.array(wordsVec_ls).astype('float32')))
+        print(word2id_dic)
     return {'wordsVec':np.array(wordsVec_ls).astype('float32'),
             'id2word':id2word_dic,
             'word2id':word2id_dic}
@@ -32,5 +33,5 @@ def write(fname,data):
 if __name__ == "__main__":
     fname = "/datastore/liu121/wordEmb/tencent_cn/Tencent_AILab_ChineseEmbedding.txt"
     data = read(fname)
-    fname=""
-    write(,data)
+    fname="/datastore/liu121/wordEmb/tencent_cn/tencent_wordsVec.pkl"
+    write(fname,data)
