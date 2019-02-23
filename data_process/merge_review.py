@@ -30,13 +30,14 @@ class MergeReview:
         new_word_dic = {}
         for i in range(len(fasttext_id2word_dic)):
             word = fasttext_id2word_dic[i]
-            if word == "#PAD#":
-                new_wordsVec.append(np.zeros(shape=(200,),dtype='float32'))
-            elif word == '':
-                new_wordsVec.append(self.table[i])
-            else:
+            if word in tenc_word2id_dic
                 tenc_id = tenc_word2id_dic[word]
                 new_wordsVec.append(tenc_wordsVec[tenc_id])
+            else:
+                if word == "#PAD#":
+                    new_wordsVec.append(np.zeros(shape=(200,),dtype='float32'))
+                else:
+                    new_wordsVec.append(self.table[i])
             new_word_dic[word]=i
         print(new_word_dic)
         return new_word_dic, np.array(new_wordsVec).astype('float32')
