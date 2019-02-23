@@ -30,10 +30,14 @@ class MergeReview:
         new_word_dic = {}
         for i in range(len(fasttext_id2word_dic)):
             word = fasttext_id2word_dic[i]
-            tenc_id = tenc_word2id_dic[word]
-            new_wordsVec.append(tenc_wordsVec[tenc_id])
+            if word == "#PAD#":
+                new_wordsVec.append(np.zeros(shape=(200,),dtype='float32'))
+            else:
+                tenc_id = tenc_word2id_dic[word]
+                new_wordsVec.append(tenc_wordsVec[tenc_id])
             new_word_dic[word]=i
-        return new_word_dic, new_wordsVec
+        print(new_word_dic)
+        return new_word_dic, np.array(new_wordsVec).astype('float32')
 
     def load_train_data(self):
         assert os.path.exists(self.configs['train_data_path']) and os.path.getsize(self.configs['train_data_path']) > 0
