@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --get-user-env
 #SBATCH --job-name="base_net"
-#SBATCH --time=48:00:00
+#SBATCH --time=25:00:00
 #SBATCH --nodes=1
 #SBATCH --mem=100GB
 #SBATCH --ntasks-per-node=1
