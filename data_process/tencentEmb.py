@@ -2,8 +2,10 @@ def read(fname):
     with open(fname,'r') as f:
         count = 0
         for line in f:
+            if count ==0:
+                print(line)
             count+=1
-            print(line)
+            print(repr(line))
             if count>=2:
                 exit()
 
