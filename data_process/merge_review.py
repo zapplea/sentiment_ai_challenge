@@ -36,7 +36,6 @@ class MergeReview:
             else:
                 new_wordsVec.append(self.table[i][:200])
             new_word_dic[word]=i
-        print(new_word_dic)
         return new_word_dic, np.array(new_wordsVec).astype('float32')
 
     def load_train_data(self):
