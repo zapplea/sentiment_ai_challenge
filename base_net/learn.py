@@ -12,7 +12,8 @@ def main(config):
     train.train(model_dic)
 
 if __name__ == "__main__":
-    config = {'model':{'biSRU':{'layers_num':3,
+    config = {'model':{'biSRU':{'shared_layers_num':2,
+                                'separated_layers_num':3,
                                 'rnn_dim':300},
                        'lr': 1e-3,
                        'reg_rate':1e-4,

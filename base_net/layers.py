@@ -23,7 +23,7 @@ class Layers:
         """
 
         :param X_id: (batch size, max sent len)
-        :return:
+        :return: (batch size, max sent len, word dim)
         """
         X_id = tf.cast(X_id, dtype='float32')
         padding_id = tf.ones_like(X_id, dtype='float32') * self.config['model']['padding_word_index']
@@ -66,7 +66,7 @@ class Layers:
                                 axis=1, name='seq_len')
         return seq_len
 
-    def biSRU(self,X,seq_len,):
+    def biSRU(self,X,seq_len,name=''):
         """
 
         :param X: (batch size, max sent len, word dim)
@@ -74,7 +74,7 @@ class Layers:
         :param name:
         :return: (batch size, max sent len, rnn dim)
         """
-        with tf.variable_scope('biSRU', reuse=tf.AUTO_REUSE):
+        with tf.variable_scope('biSRU_'+name, reuse=tf.AUTO_REUSE):
             # define parameters
             fw_cell = tf.contrib.rnn.SRUCell(
                 self.config['model']['biSRU']['rnn_dim'] / 2
@@ -93,29 +93,38 @@ class Layers:
             outputs = tf.concat(outputs, axis=-1)
         return outputs
 
-    def attr_matrix(self):
+    def attr_matrix(self,name=''):
         """
 
         :return: (attr num, rnn dim)
         """
-        A = tf.get_variable(name='attr_matrix',
+        A = tf.get_variable(name='attr_matrix_'+name,
                             initializer=self.parameter_initializer(shape=(self.config['model']['attr_num'],self.config['model']['biSRU']['rnn_dim'])),
                             dtype='float32')
         norm = tf.contrib.layers.l2_regularizer(self.config['model']['reg_rate'])(A)
         tf.add_to_collection('reg', norm)
         return A
 
-    def attention(self,A,X):
+    def attention(self,A,X,X_id):
         """
 
         :param A: (attr num, rnn dim)
         :param X: (batch size, max sentence len, rnn dim)
-        :return:
+        :param X_id: (batch size, max sentence len)
+        :return: (batch size, attr num, max sent len)
         """
+        X_id = tf.cast(X_id, dtype='float32')
+        padding_id = tf.ones_like(X_id, dtype='float32') * self.config['model']['padding_word_index']
+        is_padding = tf.equal(X_id, padding_id)
+        # (batch size, max sentence len)
+        mask = tf.where(is_padding,
+                        tf.ones_like(X_id, dtype='float32')*(-float('inf')),
+                        tf.zeros_like(X_id, dtype='float32'))
         # (batch size, max sentence len, attr num)
         temp = tf.tensordot(X,A,axes=[[2],[1]])
         # (attr num, batch size, max sent len)
         temp = tf.transpose(temp,perm=(2,0,1))
+        temp = tf.add(temp,mask)
         # (attr num, batch size, max sent len)
         att = tf.nn.softmax(temp,axis=-1)
         # (batch size, attr num, max sent len)
@@ -136,11 +145,12 @@ class Layers:
     def senti_score(self,sent_repr):
         """
 
-        :param sent_repr: (batch size, attr num, rnn dim)
+        :param sent_repr: (batch size, attr num, sep bisru layers num * rnn dim)
         :return: (batch size, attr num, senti num)
         """
         # (senti num, rnn dim)
         W = tf.get_variable(name='senti_score_W',initializer=self.parameter_initializer(shape=(self.config['model']['senti_num'],
+                                                                                               self.config['model']['biSRU']['separated_layers_num']*
                                                                                                self.config['model']['biSRU']['rnn_dim']),
                                                                                         dtype='float32'))
         norm = tf.contrib.layers.l2_regularizer(self.config['model']['reg_rate'])(W)
@@ -153,7 +163,7 @@ class Layers:
     def senti_prediction(self,score):
         """
 
-        :param score: ()
+        :param score: (batch size, attr num, senti num)
         :return:
         """
         # (batch size, attr num, senti num)
