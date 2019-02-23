@@ -10,8 +10,8 @@ def read(fname):
         for line in f:
             if count ==0:
                 print(line)
+                count+=1
                 continue
-            count+=1
             line = line.replace('\n','')
             line_ls = line.split(' ')
             word = line_ls[0]
@@ -20,6 +20,7 @@ def read(fname):
             word2id_dic[word]=count-1
             id2word_dic[count-1]=word
             wordsVec_ls.append(vec)
+            count+=1
         print('wordsVec shape: ',np.shape(np.array(wordsVec_ls).astype('float32')))
         print(word2id_dic)
     return {'wordsVec':np.array(wordsVec_ls).astype('float32'),
