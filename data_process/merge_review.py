@@ -34,7 +34,7 @@ class MergeReview:
                 tenc_id = tenc_word2id_dic[word]
                 new_wordsVec.append(tenc_wordsVec[tenc_id])
             else:
-                new_wordsVec.append(self.table[i])
+                new_wordsVec.append(self.table[i][:200])
             new_word_dic[word]=i
         print(new_word_dic)
         return new_word_dic, np.array(new_wordsVec).astype('float32')
