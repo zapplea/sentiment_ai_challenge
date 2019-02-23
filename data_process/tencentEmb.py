@@ -5,7 +5,10 @@ def read(fname):
             if count ==0:
                 print(line)
             count+=1
+            line = line.replace('\n','')
             print(repr(line))
+            line_ls = line.split(' ')
+            print(line_ls)
             if count>=2:
                 exit()
 
