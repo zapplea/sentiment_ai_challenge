@@ -74,7 +74,6 @@ class SentiTrain:
                     FN_vec = np.sum(senti_FN_vec, axis=0)
                     loss_value = np.mean(senti_loss_vec)
                     print('loss value: ',loss_value)
-                    exit()
                     self.mt.report('\nepoch:%d\n'%epoch, self.outf, 'report')
                     self.mt.report('Val_loss:%.10f' % loss_value, self.outf, 'report')
                     _f1_score = self.mt.calculate_metrics_score(TP_vec=TP_vec, FP_vec=FP_vec, FN_vec=FN_vec,
