@@ -93,6 +93,8 @@ class MergeReview:
             pickle.dump((merged_train_review[:self.configs['up']], self.train_attr_label[:self.configs['up']], self.train_senti_label[:self.configs['up']], self.attribute_dic, new_word_dic, new_wordsVec),f,protocol=4)
         merged_dev_review = self.merge(self.dev_review)
         print('merged_dev_review: ',np.shape(merged_dev_review))
+        print(merged_dev_review[0])
+        print(merged_dev_review[1])
         with open(self.configs['merged_dev_data_path'],'wb') as f:
             pickle.dump((merged_dev_review[:self.configs['up']],self.dev_attr_label[:self.configs['up']], self.dev_senti_label[:self.configs['up']]),f,protocol=4)
 
