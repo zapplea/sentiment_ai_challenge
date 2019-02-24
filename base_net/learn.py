@@ -15,7 +15,7 @@ if __name__ == "__main__":
     config = {'model':{'biSRU':{'shared_layers_num':2,
                                 'separated_layers_num':3,
                                 'rnn_dim':200},
-                       'lr': 1e-3,
+                       'lr': 1e-4,
                        'reg_rate':1e-4,
                        "vocab_size": 266078,
                        'word_dim':200,

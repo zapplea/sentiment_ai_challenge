@@ -101,8 +101,8 @@ class Layers:
         A = tf.get_variable(name='attr_matrix_'+name,
                             initializer=self.parameter_initializer(shape=(self.config['model']['attr_num'],self.config['model']['biSRU']['rnn_dim'])),
                             dtype='float32')
-        norm = tf.contrib.layers.l2_regularizer(self.config['model']['reg_rate'])(A)
-        tf.add_to_collection('reg', norm)
+        # norm = tf.contrib.layers.l2_regularizer(self.config['model']['reg_rate'])(A)
+        # tf.add_to_collection('reg', norm)
         return A
 
     def attention(self,A,X,X_id):
