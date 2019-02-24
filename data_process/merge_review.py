@@ -104,7 +104,7 @@ if __name__ == "__main__":
               'merged_train_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_train_data_trail.pkl',
               'merged_dev_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_dev_data_trail.pkl',
               'tencent_wordsVec_path':'/datastore/liu121/wordEmb/tencent_cn/tencent_wordsVec.pkl',
-              'up':20000
+              'up':2000
              }
     mr = MergeReview(config)
     mr.main()
