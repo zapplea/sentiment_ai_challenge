@@ -5,14 +5,8 @@ import numpy as np
 import os
 
 class MergeReview:
-    def __init__(self):
-        self.configs = {'train_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/train_han_fasttext.pkl',
-                        'testa_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/testa_han_fasttext.pkl',
-                        'dev_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/dev_han_fasttext.pkl',
-                        'merged_train_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_train_data.pkl',
-                        'merged_dev_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_dev_data.pkl',
-                        'tencent_wordsVec_path':'/datastore/liu121/wordEmb/tencent_cn/tencent_wordsVec.pkl'
-                        }
+    def __init__(self,config):
+        self.configs = config
         self.train_review, self.train_attr_label, self.train_senti_label, self.attribute_dic, self.word_dic, self.table = self.load_train_data()
         self.dev_review, self.dev_attr_label, self.dev_senti_label = self.load_dev_data()
 
@@ -96,13 +90,21 @@ class MergeReview:
         print('merged_train_review: ',np.shape(merged_train_review))
         new_word_dic, new_wordsVec = self.load_tecentWordsVec()
         with open(self.configs['merged_train_data_path'],'wb') as f:
-            pickle.dump((merged_train_review, self.train_attr_label, self.train_senti_label, self.attribute_dic, new_word_dic, new_wordsVec),f,protocol=4)
+            pickle.dump((merged_train_review[:self.configs['up']], self.train_attr_label[:self.configs['up']], self.train_senti_label[:self.configs['up']], self.attribute_dic, new_word_dic, new_wordsVec),f,protocol=4)
         merged_dev_review = self.merge(self.dev_review)
         print('merged_dev_review: ',np.shape(merged_dev_review))
         with open(self.configs['merged_dev_data_path'],'wb') as f:
-            pickle.dump((merged_dev_review,self.dev_attr_label, self.dev_senti_label),f,protocol=4)
+            pickle.dump((merged_dev_review[:self.configs['up']],self.dev_attr_label[:self.configs['up']], self.dev_senti_label[:self.configs['up']]),f,protocol=4)
 
 if __name__ == "__main__":
     print('run program: ')
-    mr = MergeReview()
+    config = {'train_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/train_han_fasttext.pkl',
+              'testa_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/testa_han_fasttext.pkl',
+              'dev_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/dev_han_fasttext.pkl',
+              'merged_train_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_train_data_trail.pkl',
+              'merged_dev_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_dev_data_trail.pkl',
+              'tencent_wordsVec_path':'/datastore/liu121/wordEmb/tencent_cn/tencent_wordsVec.pkl',
+              'up':20000
+             }
+    mr = MergeReview(config)
     mr.main()

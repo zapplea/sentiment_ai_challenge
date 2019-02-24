@@ -118,15 +118,21 @@ class Layers:
         is_padding = tf.equal(X_id, padding_id)
         # (batch size, max sentence len)
         mask = tf.where(is_padding,
-                        tf.ones_like(X_id, dtype='float32')*(-float('inf')),
-                        tf.zeros_like(X_id, dtype='float32'))
+                        tf.zeros_like(X_id, dtype='float32'),
+                        tf.ones_like(X_id, dtype='float32'))
         # (batch size, max sentence len, attr num)
-        temp = tf.tensordot(X,A,axes=[[2],[1]])
+        temp = tf.clip_by_value(tf.tensordot(X,A,axes=[[2],[1]]),
+                                clip_value_min=tf.constant(-self.config['model']['clip_value']),
+                                clip_value_max=tf.constant(self.config['model']['clip_value']))
         # (attr num, batch size, max sent len)
         temp = tf.transpose(temp,perm=(2,0,1))
-        temp = tf.add(temp,mask)
+        temp = tf.multiply(mask,tf.exp(temp))
+        # (attr num, batch size, 1)
+        denominator = tf.reduce_sum(temp, axis=2, keepdims=True)
         # (attr num, batch size, max sent len)
-        att = tf.nn.softmax(temp,axis=-1)
+        denominator = tf.tile(denominator,multiples=[1,1,self.config['model']['max_sent_len']])
+        # (attr num, batch size, max sent len)
+        att = tf.truediv(temp,denominator)
         # (batch size, attr num, max sent len)
         att = tf.transpose(att,perm=(1,0,2))
         return att
