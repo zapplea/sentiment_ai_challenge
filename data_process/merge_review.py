@@ -38,8 +38,8 @@ class MergeReview:
         with open(self.configs['train_data_path'], 'rb') as f:
             attribute_dic, word_dic, train_labels, train_sentence, word_embed = pickle.load(f)
 
-        train_attr_label = np.sum(np.reshape(train_labels, newshape=[-1, 20, 4])[:, :, 1:], axis=-1)
-        train_senti_label = np.reshape(train_labels, newshape=[-1, 20, 4])[:, :, 1:]
+        train_attr_label = np.sum(np.reshape(train_labels, newshape=[-1, 20, 4]), axis=-1)
+        train_senti_label = np.reshape(train_labels, newshape=[-1, 20, 4])
 
         return train_sentence, train_attr_label, train_senti_label, attribute_dic, word_dic, word_embed
 
@@ -49,8 +49,8 @@ class MergeReview:
         with open(self.configs['dev_data_path'], 'rb') as f:
             dev_labels, dev_review = pickle.load(f)
 
-        dev_attr_label = np.sum(np.reshape(dev_labels, newshape=[-1, 20, 4])[:, :, 1:], axis=-1)
-        dev_senti_label = np.reshape(dev_labels, newshape=[-1, 20, 4])[:, :, 1:]
+        dev_attr_label = np.sum(np.reshape(dev_labels, newshape=[-1, 20, 4]), axis=-1)
+        dev_senti_label = np.reshape(dev_labels, newshape=[-1, 20, 4])
 
         return dev_review, dev_attr_label, dev_senti_label
 
@@ -106,7 +106,7 @@ if __name__ == "__main__":
               'merged_train_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_train_data_trail.pkl',
               'merged_dev_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_dev_data_trail.pkl',
               'tencent_wordsVec_path':'/datastore/liu121/wordEmb/tencent_cn/tencent_wordsVec.pkl',
-              'up':20000
+              'up':None
              }
     mr = MergeReview(config)
     mr.main()

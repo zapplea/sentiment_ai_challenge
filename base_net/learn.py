@@ -13,6 +13,7 @@ def main(config):
     train.train(model_dic)
 
 if __name__ == "__main__":
+    # the label should be 4 dim
     parser = argparse.ArgumentParser()
     parser.add_argument('--lr',type=int)
     parser.add_argument('--reg',type=int)
@@ -28,7 +29,7 @@ if __name__ == "__main__":
                        'word_dim':200,
                        'max_sent_len':1141,
                        'attr_num':20,
-                       'senti_num':3,
+                       'senti_num':4,
                        'padding_word_index':0,
                        'clip_value':10.0},
               'train':{'epoch_num':20,
