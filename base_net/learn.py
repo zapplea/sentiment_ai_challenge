@@ -33,7 +33,7 @@ if __name__ == "__main__":
                        'clip_value':10.0},
               'train':{'epoch_num':20,
                        'report_filePath':'/datastore/liu121/sentidata2/report/aic_junyu',
-                       'early_stop_limit':20,
+                       'early_stop_limit':3,
                        'mod':1,
                        'sr_path':'/datastore/liu121/sentidata2/result/aic_junyu',
                        'attributes_num':20,},
