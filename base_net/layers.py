@@ -173,7 +173,9 @@ class Layers:
         :return:
         """
         # (batch size, attr num, senti num)
-        senti_pred = tf.nn.softmax(score,axis=-1)
+        temp = tf.nn.softmax(score,axis=-1)
+        senti_pred = tf.where(tf.equal(tf.reduce_max(temp, axis=2, keep_dims=True), temp), tf.ones_like(temp),
+                        tf.zeros_like(temp))
         return senti_pred
 
     def senti_loss(self,logits,labels):
