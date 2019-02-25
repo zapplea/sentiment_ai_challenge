@@ -7,16 +7,11 @@ class Metrics:
     def caliberate(self,label):
         """
         [pos, neu, neg] --> [pos, neu, neg, not mention]
-        :param label: (batch size, attributes+1,3) 
+        :param label: (batch size, attributes,4)
         :return: 
         """
-        notmention_label = np.expand_dims(np.sum(label,axis=2),axis=2)
-        condition = np.equal(notmention_label,np.zeros_like(notmention_label))
-        notmention_label = np.where(condition,np.ones_like(notmention_label),np.zeros_like(notmention_label))
-        # shape = (batch size, attributes+1,4)
-        label = np.concatenate([label,notmention_label],axis=2)
-        d0=label.shape[0]
-        return np.reshape(label,newshape=[d0,-1])
+        shape=np.shape(label)
+        return np.reshape(label,newshape=(-1,shape[1]*shape[2]))
 
     def TP(self,true_labels,pred_labels):
         result = true_labels*pred_labels
