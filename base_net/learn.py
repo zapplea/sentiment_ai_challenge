@@ -39,6 +39,6 @@ if __name__ == "__main__":
                        'sr_path':'/datastore/liu121/sentidata2/result/aic_junyu',
                        'attributes_num':20,},
               'datafeeder':{'batch_size':100,
-                            'train_data_file_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_train_data.pkl',
-                            'test_data_file_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_dev_data.pkl'}}
+                            'train_data_file_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_train_data_trail.pkl',
+                            'test_data_file_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_dev_data_trail.pkl'}}
     main(config)
