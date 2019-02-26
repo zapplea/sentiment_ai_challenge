@@ -18,7 +18,7 @@ if __name__ == "__main__":
     parser.add_argument('--lr',type=int)
     parser.add_argument('--reg',type=int)
     args = parser.parse_args()
-    lr = [1e-4,1e-5,1e-6,1e-7]
+    lr = [1e-3,1e-4,]
     reg = [1e-3,1e-4,1e-5,1e-6]
     config = {'model':{'biSRU':{'shared_layers_num':2,
                                 'separated_layers_num':3,
@@ -32,9 +32,9 @@ if __name__ == "__main__":
                        'senti_num':4,
                        'padding_word_index':0,
                        'clip_value':10.0},
-              'train':{'epoch_num':20,
+              'train':{'epoch_num':100,
                        'report_filePath':'/datastore/liu121/sentidata2/report/aic_junyu',
-                       'early_stop_limit':10,
+                       'early_stop_limit':20,
                        'mod':1,
                        'sr_path':'/datastore/liu121/sentidata2/result/aic_junyu',
                        'attributes_num':20,},
