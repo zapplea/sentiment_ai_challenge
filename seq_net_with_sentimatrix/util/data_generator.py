@@ -7,13 +7,11 @@ class DataGenerator():
     def __init__(self, configs):
         self.configs = configs
         self.train_review, self.train_attr_label, self.train_senti_label, self.attribute_dic, self.word_dic, self.table = self.load_train_data()
-        print('train attr label shape:',np.shape(self.train_attr_label))
         self.vocab = list(self.word_dic.keys())
         self.train_data_size = len(self.train_review)
         print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())), ' : Finish Loading Training Data')
 
         self.dev_review, self.dev_attr_label, self.dev_senti_label = self.load_dev_data()
-        print('dev attr label shape: ',np.shape(self.dev_attr_label))
         self.dev_data_size = len(self.dev_review)
         print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())), ' : Finish Loading Dev Data')
 
@@ -252,16 +250,22 @@ class DataGenerator():
         assert os.path.exists(self.configs['train_data_path']) and os.path.getsize(self.configs['train_data_path']) > 0
 
         with open(self.configs['train_data_path'], 'rb') as f:
-            train_review, train_attr_label, train_senti_label, attribute_dic, word_dic, table = pickle.load(f)
+            attribute_dic, word_dic, train_labels, train_sentence, word_embed = pickle.load(f)
 
-        return train_review, train_attr_label, train_senti_label, attribute_dic, word_dic, table
+        train_attr_label = np.sum(np.reshape(train_labels, newshape=[-1,20,4])[:,:,1:], axis=-1)
+        train_senti_label = np.reshape(train_labels, newshape=[-1, 20, 4])[:, :, 1:]
+
+        return train_sentence, train_attr_label, train_senti_label, attribute_dic, word_dic, word_embed
 
     def load_dev_data(self):
 
         assert os.path.exists(self.configs['dev_data_path']) and os.path.getsize(self.configs['dev_data_path']) > 0
 
         with open(self.configs['dev_data_path'], 'rb') as f:
-            dev_review, dev_attr_label, dev_senti_label = pickle.load(f)
+            dev_labels, dev_review = pickle.load(f)
+
+        dev_attr_label = np.sum(np.reshape(dev_labels, newshape=[-1, 20, 4])[:, :, 1:], axis=-1)
+        dev_senti_label = np.reshape(dev_labels, newshape=[-1, 20, 4])[:, :, 1:]
 
         return dev_review, dev_attr_label, dev_senti_label
 
@@ -273,3 +277,5 @@ class DataGenerator():
             testa_review = pickle.load(f)
 
         return testa_review
+
+

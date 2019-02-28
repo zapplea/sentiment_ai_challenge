@@ -252,7 +252,7 @@ class DataGenerator():
         assert os.path.exists(self.configs['train_data_path']) and os.path.getsize(self.configs['train_data_path']) > 0
 
         with open(self.configs['train_data_path'], 'rb') as f:
-            train_review, train_attr_label, train_senti_label, attribute_dic, word_dic, table = pickle.load(f)
+            train_review, train_attr_label, _, train_senti_label, attribute_dic, word_dic, table = pickle.load(f)
 
         return train_review, train_attr_label, train_senti_label, attribute_dic, word_dic, table
 
@@ -261,7 +261,7 @@ class DataGenerator():
         assert os.path.exists(self.configs['dev_data_path']) and os.path.getsize(self.configs['dev_data_path']) > 0
 
         with open(self.configs['dev_data_path'], 'rb') as f:
-            dev_review, dev_attr_label, dev_senti_label = pickle.load(f)
+            dev_review, dev_attr_label, _, dev_senti_label = pickle.load(f)
 
         return dev_review, dev_attr_label, dev_senti_label
 
