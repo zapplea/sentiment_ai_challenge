@@ -20,8 +20,8 @@ model_data_path = '/datastore/liu121/sentidata2/data/aic2018_junyu'
 model_path = '/datastore/liu121/sentidata2/result/aic_junyu'
 
 conf = {
-    'train_data_path' : os.path.join(model_data_path, 'train_han_fasttext.pkl'),
-    'dev_data_path' : os.path.join(model_data_path, 'dev_han_fasttext.pkl'),
+    'train_data_path' : os.path.join(model_data_path, 'tenc_train_data.pkl'),
+    'dev_data_path' : os.path.join(model_data_path, 'tenc_dev_data.pkl'),
     'testa_data_path' : os.path.join(model_data_path, 'testa_han_fasttext.pkl'),
 
     "init_model": None, #should be set for test
@@ -30,7 +30,7 @@ conf = {
     "learning_rate":1e-3,
     "attribute_threshold":0.5,
     "vocab_size": 266078,    #111695
-    "emb_dim": 300,
+    "emb_dim": 200,
     "batch_size": 50, #200 for test
 
     "max_rev_len": 25,
@@ -46,7 +46,7 @@ conf = {
 
     'multi_head':8,
 
-    'Model': 'D_HAN_MC'
+    'Model': 'tenc_D_HAN_MC'
 }
 conf.update({'save_path' : os.path.join(model_path, conf['Model'] + '/attr/')})
 
