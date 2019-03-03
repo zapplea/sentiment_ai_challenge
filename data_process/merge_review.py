@@ -115,8 +115,6 @@ class MergeReview:
                 word = id_to_word[word_id]
                 if word != "#PAD#":
                     chars = list(word)
-                    print(chars)
-                    exit()
                     if max_char<len(chars):
                         max_char = len(chars)
         print('max char: ',max_char)
