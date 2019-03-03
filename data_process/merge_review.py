@@ -153,6 +153,7 @@ class MergeReview:
             merged_train_char = self.doc_to_char(review=merged_train_review,word_dic=new_word_dic,char_ls=char_ls)
             print('dev char')
             merged_dev_char = self.doc_to_char(review=merged_dev_review,word_dic=new_word_dic,char_ls=char_ls)
+            exit()
             with open(self.configs['merged_train_data_path'],'wb') as f:
                 pickle.dump((merged_train_review[:self.configs['up']],merged_train_char[:self.configs['up']], self.train_attr_label[:self.configs['up']], self.train_senti_label[:self.configs['up']], self.attribute_dic, new_word_dic, new_wordsVec),f,protocol=4)
             with open(self.configs['merged_dev_data_path'],'wb') as f:
