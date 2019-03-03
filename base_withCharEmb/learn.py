@@ -34,7 +34,7 @@ if __name__ == "__main__":
                        'clip_value':10.0,
                        'max_word_len':None,
                        'char_vocab_size':None,
-                       'char_dim':None,
+                       'char_dim':50,
                        'padding_char_index':0},
               'train':{'epoch_num':100,
                        'report_filePath':'/datastore/liu121/sentidata2/report/aic_junyu',

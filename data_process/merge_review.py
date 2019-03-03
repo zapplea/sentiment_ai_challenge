@@ -88,13 +88,11 @@ class MergeReview:
     def load_charEmb(self):
         with open(self.configs['charEmb_path']) as f:
             char_ls = ['#PAD#',]
-            vec_ls = [np.zeros(shape=(100,),dtype='float32'),]
+            vec_ls = [np.zeros(shape=(50,),dtype='float32'),]
             for line in f:
                 line=line.replace('\n','')
                 ls = line.split(' ')
                 char_ls.append(ls[0])
-                print(len(ls[1:]))
-                exit()
                 vec_ls.append(np.array(list(map(float,ls[1:]))).astype('float32'))
 
         return char_ls, np.array(vec_ls).astype('float32')
