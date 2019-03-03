@@ -90,12 +90,14 @@ class MergeReview:
             char_ls = ['#PAD#',]
             vec_ls = [np.zeros(shape=(100,),dtype='float32'),]
             for line in f:
-                print(repr(line))
-                exit()
                 line=line.replace('\n','')
-                ls = line.split('\t')
+                ls = line.split(' ')
+                print(ls)
                 char_ls.append(ls[0])
+                print(char_ls)
                 vec_ls.append(list(map(float,ls[1:])))
+                print(vec_ls)
+                exit()
 
         return char_ls, np.array(vec_ls).astype('float32')
 
@@ -116,7 +118,7 @@ class MergeReview:
                 word_id = review[i][j]
                 word = id_to_word[word_id]
                 if word != "#PAD#":
-                    chars = word.split()
+                    chars = list(word)
                     if max_char<len(chars):
                         max_char = len(chars)
                     word_char_id_ls = []
