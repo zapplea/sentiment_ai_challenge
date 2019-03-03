@@ -134,8 +134,11 @@ class MergeReview:
         return np.array(allreviews_char_id_ls).astype('int32')
 
     def main(self):
+        print('load charEmb')
         char_ls, char_vecs = self.load_charEmb()
+        print('load tenc word vec')
         new_word_dic, new_wordsVec = self.load_tecentWordsVec()
+        print('merge')
         merged_train_review = self.merge(self.train_review)
         print('merged_train_review: ', np.shape(merged_train_review))
         merged_dev_review = self.merge(self.dev_review)
