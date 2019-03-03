@@ -27,6 +27,7 @@ class SentiTrain:
         best_f1_score = 0
         with graph.as_default():
             table = tf.get_collection('table')[0]
+            char_table = tf.get_collection('char_table')[0]
             senti_X = tf.get_collection('senti_X_id')[0]
             senti_char_X = tf.get_collection('senti_char_X_id')[0]
             senti_Y = tf.get_collection('senti_Y')[0]
@@ -39,7 +40,7 @@ class SentiTrain:
         config = tf.ConfigProto(allow_soft_placement=True)
         config.gpu_options.allow_growth = True
         with tf.Session(graph=graph,config=config) as sess:
-            sess.run(init, feed_dict={table:self.df.table})
+            sess.run(init, feed_dict={table:self.df.table,char_table:self.df.char_table})
             self.mt.report('\n#####sentiment metrics#####\n', self.outf, 'report')
             for epoch in range(self.config['train']['epoch_num']):
                 dataset = self.df.data_generator('train')

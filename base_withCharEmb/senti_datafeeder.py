@@ -44,7 +44,8 @@ class DataFeeder:
                           }
         self.data_config.update(config)
         print('load train data...')
-        self.train_attr_labels, self.train_senti_labels, self.train_sentences,self.train_sentences_char,self.aspect_dic , self.dictionary, self.table = self.load_train_data()
+        self.train_attr_labels, self.train_senti_labels, self.train_sentences,self.train_sentences_char,\
+        self.aspect_dic , self.dictionary, self.table, self.char_table = self.load_train_data()
         print('Done!')
         self.id_to_aspect_dic = dict((v,k) for k,v in self.aspect_dic.items())
         print('load test data...')
@@ -95,8 +96,8 @@ class DataFeeder:
     def load_train_data(self):
         if os.path.exists(self.data_config['train_data_file_path']) and os.path.getsize(self.data_config['train_data_file_path']) > 0:
             with open(self.data_config['train_data_file_path'],'rb') as f:
-                review,char_review, attr_label, senti_label, attribute_dic, word_dic, table = pickle.load(f)
-            return attr_label, senti_label, review,char_review, attribute_dic , word_dic ,table
+                review,char_review, attr_label, senti_label, attribute_dic, word_dic, table,char_table = pickle.load(f)
+            return attr_label, senti_label, review,char_review, attribute_dic , word_dic, table, char_table
 
     def load_test_data(self):
         print('test path: ',self.data_config['test_data_file_path'])
