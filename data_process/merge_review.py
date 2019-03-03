@@ -110,11 +110,13 @@ class MergeReview:
         allreviews_char_id_ls = []
         for i in range(review.shape[0]):
             review_char_id_ls = []
-            for j in range(len(review.shape[1])):
+            for j in range(review.shape[1]):
                 word_id = review[i][j]
                 word = id_to_word[word_id]
                 if word != "#PAD#":
                     chars = list(word)
+                    print(chars)
+                    exit()
                     if max_char<len(chars):
                         max_char = len(chars)
         print('max char: ',max_char)
