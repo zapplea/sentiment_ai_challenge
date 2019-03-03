@@ -93,6 +93,8 @@ class MergeReview:
                 line=line.replace('\n','')
                 ls = line.split(' ')
                 char_ls.append(ls[0])
+                print(len(char_ls[1:]))
+                exit()
                 vec_ls.append(np.array(list(map(float,ls[1:]))).astype('float32'))
 
         return char_ls, np.array(vec_ls).astype('float32')
