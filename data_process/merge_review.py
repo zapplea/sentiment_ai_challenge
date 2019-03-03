@@ -92,12 +92,8 @@ class MergeReview:
             for line in f:
                 line=line.replace('\n','')
                 ls = line.split(' ')
-                print(ls)
                 char_ls.append(ls[0])
-                print(char_ls)
                 vec_ls.append(np.array(list(map(float,ls[1:]))).astype('float32'))
-                print(vec_ls)
-                exit()
 
         return char_ls, np.array(vec_ls).astype('float32')
 
@@ -121,18 +117,19 @@ class MergeReview:
                     chars = list(word)
                     if max_char<len(chars):
                         max_char = len(chars)
-                    word_char_id_ls = []
-                    for char in chars:
-                        char_id = char_ls.index(char)
-                        word_char_id_ls.append(char_id)
-                    while len(word_char_id_ls)<max_char:
-                        word_char_id_ls.append(0)
-                else:
-                    word_char_id_ls = []
-                    while len(word_char_id_ls)<max_char:
-                        word_char_id_ls.append(0)
-                review_char_id_ls.append(word_char_id_ls)
-            allreviews_char_id_ls.append(review_char_id_ls)
+        print('max char: ',max_char)
+            #         word_char_id_ls = []
+            #         for char in chars:
+            #             char_id = char_ls.index(char)
+            #             word_char_id_ls.append(char_id)
+            #         while len(word_char_id_ls)<max_char:
+            #             word_char_id_ls.append(0)
+            #     else:
+            #         word_char_id_ls = []
+            #         while len(word_char_id_ls)<max_char:
+            #             word_char_id_ls.append(0)
+            #     review_char_id_ls.append(word_char_id_ls)
+            # allreviews_char_id_ls.append(review_char_id_ls)
         return np.array(allreviews_char_id_ls).astype('int32')
 
     def main(self):
