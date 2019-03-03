@@ -108,7 +108,7 @@ class MergeReview:
             id_to_word[word_dic[word]] = word
         max_char = 0
         allreviews_char_id_ls = []
-        for i in range(len(review.shape[0])):
+        for i in range(review.shape[0]):
             review_char_id_ls = []
             for j in range(len(review.shape[1])):
                 word_id = review[i][j]
@@ -149,7 +149,9 @@ class MergeReview:
             with open(self.configs['merged_dev_data_path'],'wb') as f:
                 pickle.dump((merged_dev_review[:self.configs['up']],self.dev_attr_label[:self.configs['up']], self.dev_senti_label[:self.configs['up']]),f,protocol=4)
         else:
+            print('train char')
             merged_train_char = self.doc_to_char(review=merged_train_review,word_dic=new_word_dic,char_ls=char_ls)
+            print('dev char')
             merged_dev_char = self.doc_to_char(review=merged_dev_review,word_dic=new_word_dic,char_ls=char_ls)
             with open(self.configs['merged_train_data_path'],'wb') as f:
                 pickle.dump((merged_train_review[:self.configs['up']],merged_train_char[:self.configs['up']], self.train_attr_label[:self.configs['up']], self.train_senti_label[:self.configs['up']], self.attribute_dic, new_word_dic, new_wordsVec),f,protocol=4)
