@@ -134,8 +134,8 @@ class MergeReview:
         return np.array(allreviews_char_id_ls).astype('int32')
 
     def main(self):
+        char_ls, char_vecs = self.load_charEmb()
         new_word_dic, new_wordsVec = self.load_tecentWordsVec()
-        char_ls,char_vecs = self.load_charEmb()
         merged_train_review = self.merge(self.train_review)
         print('merged_train_review: ', np.shape(merged_train_review))
         merged_dev_review = self.merge(self.dev_review)
@@ -159,12 +159,12 @@ if __name__ == "__main__":
     config = {'train_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/train_han_fasttext.pkl',
               'testa_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/testa_han_fasttext.pkl',
               'dev_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/dev_han_fasttext.pkl',
-              'merged_train_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_train_data_trail.pkl',
-              'merged_dev_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_dev_data_trail.pkl',
+              'merged_train_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_train_data_withChar.pkl',
+              'merged_dev_data_path': '/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_dev_data_withChar.pkl',
               'tencent_wordsVec_path':'/datastore/liu121/wordEmb/tencent_cn/tencent_wordsVec.pkl',
               'charEmb_path':'/datastore/liu121/charEmb/aic2018_glove_charVec.txt',
               'is_charEmb':True,
-              'up':20000,
+              'up':None,
              }
     mr = MergeReview(config)
     mr.main()
