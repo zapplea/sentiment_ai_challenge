@@ -124,12 +124,13 @@ class MergeReview:
                         word_char_id_ls.append(char_id)
                     while len(word_char_id_ls)<max_char:
                         word_char_id_ls.append(0)
+                    print(word_char_id_ls)
+                    exit()
                 else:
                     word_char_id_ls = []
                     while len(word_char_id_ls)<max_char:
                         word_char_id_ls.append(0)
                 review_char_id_ls.append(word_char_id_ls)
-                print(review_char_id_ls)
             allreviews_char_id_ls.append(review_char_id_ls)
         return np.array(allreviews_char_id_ls).astype('int32'), char_ls,char_vecs
 
