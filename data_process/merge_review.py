@@ -95,7 +95,7 @@ class MergeReview:
                 print(ls)
                 char_ls.append(ls[0])
                 print(char_ls)
-                vec_ls.append(list(map(float,ls[1:])))
+                vec_ls.append(np.array(list(map(float,ls[1:]))).astype('float32'))
                 print(vec_ls)
                 exit()
 
