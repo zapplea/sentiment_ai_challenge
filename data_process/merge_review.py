@@ -107,6 +107,7 @@ class MergeReview:
         for word in word_dic:
             id_to_word[word_dic[word]] = word
         max_char = 0
+        max_chars_value = []
         allreviews_char_id_ls = []
         for i in range(review.shape[0]):
             review_char_id_ls = []
@@ -117,7 +118,9 @@ class MergeReview:
                     chars = list(word)
                     if max_char<len(chars):
                         max_char = len(chars)
+                        max_chars_value = chars
         print('max char: ',max_char)
+        print(max_chars_value)
             #         word_char_id_ls = []
             #         for char in chars:
             #             char_id = char_ls.index(char)
