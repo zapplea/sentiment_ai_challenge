@@ -80,7 +80,7 @@ class MergeReview:
             for j in range(shape[1]):
                 sentence = reviews[i][j]
                 condition = np.not_equal(sentence,pad_id)
-                new_review+= sentence[condition].tolist()
+                # new_review+= sentence[condition].tolist()
                 for word_id in sentence[condition].tolist():
                     if re.search(u'[\u4e00-\u9fff]',id_to_word[word_id]):
                         new_review.append(word_id)
