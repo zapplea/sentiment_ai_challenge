@@ -3,6 +3,7 @@
 import pickle
 import numpy as np
 import os
+import re
 
 class MergeReview:
     def __init__(self,config):
@@ -65,8 +66,11 @@ class MergeReview:
         reviews = np.where(condition,np.zeros_like(reviews),np.ones_like(reviews))
         return np.max(np.sum(np.sum(reviews,axis=2),axis=1))
 
-    def merge(self,reviews):
+    def merge(self,reviews,word_dic):
         print('review shape: \n',np.shape(reviews))
+        id_to_word = {}
+        for word in word_dic:
+            id_to_word[word_dic[word]] = word
         shape = np.shape(reviews)
         merged_reviews = []
         pad_id = 0
@@ -77,6 +81,9 @@ class MergeReview:
                 sentence = reviews[i][j]
                 condition = np.not_equal(sentence,pad_id)
                 new_review+= sentence[condition].tolist()
+                for word_id in sentence[condition].tolist():
+                    if re.search(u'[\u4e00-\u9fff]',id_to_word[word_id]):
+                        new_review.append(word_id)
             if len(new_review)<max_len:
                 pad_len = max_len - len(new_review)
                 new_review+=np.zeros(shape=(pad_len,)).tolist()
@@ -103,11 +110,12 @@ class MergeReview:
         :param review: (batch, review len)
         :return:
         """
+        # TODO: use np.zeros() to reduce time complexity
         id_to_word = {}
         for word in word_dic:
             id_to_word[word_dic[word]] = word
         allreviews_char_id_ls = []
-        max_char = 266
+        max_char = 11
         for i in range(review.shape[0]):
             review_char_id_ls = []
             for j in range(review.shape[1]):
@@ -122,12 +130,10 @@ class MergeReview:
                             char_vecs = np.concatenate([char_vecs,np.random.uniform(size=(1,50)).astype('float32')],axis=0)
                         char_id = char_ls.index(char)
                         word_char_id_ls.append(char_id)
-                    while len(word_char_id_ls)<max_char:
-                        word_char_id_ls.append(0)
+                    if len(word_char_id_ls)<max_char:
+                        word_char_id_ls+=np.zeros(shape=(max_char-len(word_char_id_ls),)).astype('int32').tolist()
                 else:
-                    word_char_id_ls = []
-                    while len(word_char_id_ls)<max_char:
-                        word_char_id_ls.append(0)
+                    word_char_id_ls = np.zeros(shape=(max_char,),dtype='int32').tolist()
                 review_char_id_ls.append(word_char_id_ls)
             allreviews_char_id_ls.append(review_char_id_ls)
         return np.array(allreviews_char_id_ls).astype('int32'), char_ls,char_vecs
