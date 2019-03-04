@@ -132,6 +132,34 @@ class MergeReview:
             allreviews_char_id_ls.append(review_char_id_ls)
         return np.array(allreviews_char_id_ls).astype('int32'), char_ls,char_vecs
 
+    def measure_char_len(self,review,word_dic):
+        """
+
+        :param review: (batch, review len)
+        :return:
+        """
+        id_to_word = {}
+        for word in word_dic:
+            id_to_word[word_dic[word]] = word
+        allreviews_char_id_ls = []
+        max_char = 10
+        extra_word_freq = {}
+        for i in range(review.shape[0]):
+            review_char_id_ls = []
+            for j in range(review.shape[1]):
+                word_id = review[i][j]
+                word = id_to_word[word_id]
+                if word != "#PAD#":
+                    chars = list(word)
+                    if len(chars)>max_char:
+                        if len(chars) in extra_word_freq:
+                            extra_word_freq[len(chars)].append(word)
+                        else:
+                            extra_word_freq[len(chars)]=[word,]
+        print(extra_word_freq)
+        exit()
+
+
     def main(self):
         print('load charEmb')
         char_ls, char_vecs = self.load_charEmb()
@@ -149,16 +177,18 @@ class MergeReview:
             with open(self.configs['merged_dev_data_path'],'wb') as f:
                 pickle.dump((merged_dev_review[:self.configs['up']],self.dev_attr_label[:self.configs['up']], self.dev_senti_label[:self.configs['up']]),f,protocol=4)
         else:
-            print('train char')
-            merged_train_char,char_ls,char_vecs = self.doc_to_char(review=merged_train_review,word_dic=new_word_dic,char_ls=char_ls,char_vecs = char_vecs)
-            print('train char.shape: ',merged_train_char.shape)
-            print('dev char')
-            merged_dev_char,char_ls,char_vecs = self.doc_to_char(review=merged_dev_review,word_dic=new_word_dic,char_ls=char_ls,char_vecs = char_vecs)
-            print('dev char.shape: ',merged_dev_char.shape)
-            with open(self.configs['merged_train_data_path'],'wb') as f:
-                pickle.dump((merged_train_review[:self.configs['up']],merged_train_char[:self.configs['up']], self.train_attr_label[:self.configs['up']], self.train_senti_label[:self.configs['up']], self.attribute_dic, new_word_dic, new_wordsVec,char_vecs),f,protocol=4)
-            with open(self.configs['merged_dev_data_path'],'wb') as f:
-                pickle.dump((merged_dev_review[:self.configs['up']],merged_dev_char[:self.configs['up']],self.dev_attr_label[:self.configs['up']], self.dev_senti_label[:self.configs['up']]),f,protocol=4)
+            self.measure_char_len(review=merged_train_review,word_dic=new_word_dic)
+            self.measure_char_len(review=merged_dev_review,word_dic=new_word_dic)
+            # print('train char')
+            # merged_train_char,char_ls,char_vecs = self.doc_to_char(review=merged_train_review,word_dic=new_word_dic,char_ls=char_ls,char_vecs = char_vecs)
+            # print('train char.shape: ',merged_train_char.shape)
+            # print('dev char')
+            # merged_dev_char,char_ls,char_vecs = self.doc_to_char(review=merged_dev_review,word_dic=new_word_dic,char_ls=char_ls,char_vecs = char_vecs)
+            # print('dev char.shape: ',merged_dev_char.shape)
+            # with open(self.configs['merged_train_data_path'],'wb') as f:
+            #     pickle.dump((merged_train_review[:self.configs['up']],merged_train_char[:self.configs['up']], self.train_attr_label[:self.configs['up']], self.train_senti_label[:self.configs['up']], self.attribute_dic, new_word_dic, new_wordsVec,char_vecs),f,protocol=4)
+            # with open(self.configs['merged_dev_data_path'],'wb') as f:
+            #     pickle.dump((merged_dev_review[:self.configs['up']],merged_dev_char[:self.configs['up']],self.dev_attr_label[:self.configs['up']], self.dev_senti_label[:self.configs['up']]),f,protocol=4)
 
 if __name__ == "__main__":
     print('run program: ')
