@@ -135,8 +135,6 @@ class MergeReview:
                 else:
                     word_char_id_ls = np.zeros(shape=(max_char,),dtype='int32').tolist()
                 review_char_id_ls.append(word_char_id_ls)
-            print(review_char_id_ls)
-            exit()
             allreviews_char_id_ls.append(review_char_id_ls)
         return np.array(allreviews_char_id_ls).astype('int32'), char_ls,char_vecs
 
