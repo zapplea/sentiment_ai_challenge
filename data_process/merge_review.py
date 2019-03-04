@@ -178,9 +178,9 @@ class MergeReview:
         print('load tenc word vec')
         new_word_dic, new_wordsVec = self.load_tecentWordsVec()
         print('merge')
-        merged_train_review = self.merge(self.train_review)
+        merged_train_review = self.merge(self.train_review,new_word_dic)
         print('merged_train_review: ', np.shape(merged_train_review))
-        merged_dev_review = self.merge(self.dev_review)
+        merged_dev_review = self.merge(self.dev_review,new_word_dic)
         print('merged_dev_review: ', np.shape(merged_dev_review))
 
         if not self.configs['is_charEmb']:
