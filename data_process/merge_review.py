@@ -156,7 +156,13 @@ class MergeReview:
                             extra_word_freq[len(chars)].append(word)
                         else:
                             extra_word_freq[len(chars)]=[word,]
-        print(extra_word_freq)
+        count = 0
+        for key in extra_word_freq:
+            word_ls = extra_word_freq[key]
+            print(key)
+            print(len(word_ls))
+            print(word_ls)
+            print('==================================')
         exit()
 
 
