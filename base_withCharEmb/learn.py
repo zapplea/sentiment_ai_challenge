@@ -18,7 +18,7 @@ if __name__ == "__main__":
     parser.add_argument('--lr',type=int)
     parser.add_argument('--reg',type=int)
     args = parser.parse_args()
-    lr = [1e-3,1e-4,]
+    lr = [1e-3,1e-4,1e-5]
     reg = [1e-3,1e-4,1e-5,1e-6]
     config = {'model':{'biSRU':{'shared_layers_num':2,
                                 'separated_layers_num':3,
