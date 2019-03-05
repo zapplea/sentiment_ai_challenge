@@ -20,7 +20,7 @@ class Layers:
         return senti_Y
 
     def char_X_input(self):
-        X = tf.placeholder(shape=(None, self.config['model']['max_sent_len'],self.config['model']['max_word_len']),dtype='float32')
+        X = tf.placeholder(shape=(None, self.config['model']['max_sent_len'],self.config['model']['max_word_len']),dtype='int32')
         tf.add_to_collection('senti_char_X_id',X)
         return X
 
