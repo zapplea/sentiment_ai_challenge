@@ -32,7 +32,7 @@ if __name__ == "__main__":
                        'senti_num':4,
                        'padding_word_index':0,
                        'clip_value':10.0,
-                       'max_word_len':None,
+                       'max_word_len':11,
                        'char_vocab_size':None,
                        'char_dim':50,
                        'padding_char_index':0},
@@ -43,6 +43,6 @@ if __name__ == "__main__":
                        'sr_path':'/datastore/liu121/sentidata2/result/aic_junyu',
                        'attributes_num':20,},
               'datafeeder':{'batch_size':100,
-                            'train_data_file_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_train_data.pkl',
-                            'test_data_file_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_dev_data.pkl'}}
+                            'train_data_file_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_train_data_withChar.pkl',
+                            'test_data_file_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_dev_data_withChar.pkl'}}
     main(config)
