@@ -24,7 +24,7 @@ class SubDataset:
         with open(self.data_config['test_data_file_path'], 'rb') as f:
             review, char_review, attr_label, senti_label = pickle.load(f)
 
-        with open(self.data_config['out_test_data_file_path'],'rb') as f:
+        with open(self.data_config['out_test_data_file_path'],'wb') as f:
             pickle.dump((review[:self.up], char_review[:self.up], attr_label[:self.up], senti_label[:self.up]),f)
 
     def main(self):
