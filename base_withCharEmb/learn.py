@@ -36,13 +36,13 @@ if __name__ == "__main__":
                        'char_vocab_size':10616,
                        'char_dim':50,
                        'padding_char_index':0},
-              'train':{'epoch_num':100,
+              'train':{'epoch_num':3,
                        'report_filePath':'/datastore/liu121/sentidata2/report/aic_junyu',
                        'early_stop_limit':20,
                        'mod':1,
                        'sr_path':'/datastore/liu121/sentidata2/result/aic_junyu',
                        'attributes_num':20,},
               'datafeeder':{'batch_size':50,
-                            'train_data_file_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_train_data_withChar.pkl',
-                            'test_data_file_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_dev_data_withChar.pkl'}}
+                            'train_data_file_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_train_data_withChar_trail.pkl',
+                            'test_data_file_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_dev_data_withChar_trail.pkl'}}
     main(config)
