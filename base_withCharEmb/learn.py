@@ -22,7 +22,7 @@ if __name__ == "__main__":
     reg = [1e-3,1e-4,1e-5,1e-6]
     config = {'model':{'biSRU':{'shared_layers_num':2,
                                 'separated_layers_num':3,
-                                'rnn_dim':200},
+                                'rnn_dim':750,},
                        'lr': lr[args.lr],
                        'reg_rate':reg[args.reg],
                        "vocab_size": 266078,
