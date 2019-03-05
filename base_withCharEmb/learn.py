@@ -33,7 +33,7 @@ if __name__ == "__main__":
                        'padding_word_index':0,
                        'clip_value':10.0,
                        'max_word_len':11,
-                       'char_vocab_size':None,
+                       'char_vocab_size':10616,
                        'char_dim':50,
                        'padding_char_index':0},
               'train':{'epoch_num':100,
