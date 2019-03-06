@@ -20,6 +20,7 @@ class Model:
         char_mask = self.layers.padded_char_mask(char_X_id)
         # (batch size, max sent len, max word len, char dim)
         char_X = self.layers.lookup(char_X_id,char_table,char_mask)
+        print(char_X_id.get_shape())
         char_seq_len = self.layers.sequence_length(char_X_id)
         print(char_seq_len.get_shape())
         exit()
