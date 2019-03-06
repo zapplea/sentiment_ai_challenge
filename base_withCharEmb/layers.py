@@ -79,30 +79,15 @@ class Layers:
         init = tf.random_uniform(shape,minval=-stdv,maxval=stdv,dtype=dtype,seed=1)
         return init
 
-    def sequence_length(self,X_id):
+    def sequence_length(self,X_id,padding_index):
         """
 
         :param X_id: (batch size, max sentence len) / (batch size, max sentence len, max word len)
         :return:
         """
-        padding_id = tf.ones_like(X_id, dtype='int32') * self.config['model']['padding_word_index']
-        print('padding id: ',padding_id.get_shape())
+        padding_id = tf.ones_like(X_id, dtype='int32') * padding_index
         condition = tf.equal(padding_id, X_id)
-        print('condition: ',condition.get_shape())
-        print(tf.where(condition, tf.zeros_like(X_id, dtype='int32'), tf.ones_like(X_id, dtype='int32')).get_shape())
         seq_len = tf.reduce_sum(tf.where(condition, tf.zeros_like(X_id, dtype='int32'), tf.ones_like(X_id, dtype='int32')),axis=-1)
-        print('==========')
-        return seq_len
-
-    def char_sequence_length(self,char_id):
-        padding_id = tf.ones_like(char_id, dtype='int32') * self.config['model']['padding_char_index']
-        print('padding id: ', padding_id.get_shape())
-        condition = tf.equal(padding_id, char_id)
-        print('condition: ', condition.get_shape())
-        print(tf.where(condition, tf.zeros_like(char_id, dtype='int32'), tf.ones_like(char_id, dtype='int32')).get_shape())
-        seq_len = tf.reduce_sum(
-            tf.where(condition, tf.zeros_like(char_id, dtype='int32'), tf.ones_like(char_id, dtype='int32')), axis=-1)
-        print('==========')
         return seq_len
 
     def biSRU(self,X,seq_len,dim,name=''):
