@@ -47,7 +47,7 @@ class Layers:
         """
 
         :param char_X_id: (batch size, max sent len, max word len)
-        :return:
+        :return: (batch size, max sent len, max word len, char dim)
         """
         char_X_id = tf.cast(char_X_id,dtype='float32')
         padding_id = tf.ones_like(char_X_id, dtype='float32') * self.config['model']['padding_char_index']
@@ -82,16 +82,16 @@ class Layers:
     def sequence_length(self,X_id):
         """
 
-        :param X_id: (batch size, max sentence len)
+        :param X_id: (batch size, max sentence len) / (batch size, max sentence len, max word len)
         :return:
         """
         padding_id = tf.ones_like(X_id, dtype='int32') * self.config['model']['padding_word_index']
         condition = tf.equal(padding_id, X_id)
         seq_len = tf.reduce_sum(tf.where(condition, tf.zeros_like(X_id, dtype='int32'), tf.ones_like(X_id, dtype='int32')),
-                                axis=1, name='seq_len')
+                                axis=-1)
         return seq_len
 
-    def biSRU(self,X,seq_len,name=''):
+    def biSRU(self,X,seq_len,dim,name=''):
         """
 
         :param X: (batch size, max sent len, word dim)
@@ -102,10 +102,10 @@ class Layers:
         with tf.variable_scope('biSRU_'+name, reuse=tf.AUTO_REUSE):
             # define parameters
             fw_cell = tf.contrib.rnn.SRUCell(
-                self.config['model']['biSRU']['rnn_dim'] / 2
+                dim / 2
             )
             bw_cell = tf.contrib.rnn.SRUCell(
-                self.config['model']['biSRU']['rnn_dim'] / 2
+                dim / 2
             )
 
             outputs, _ = tf.nn.bidirectional_dynamic_rnn(
@@ -117,6 +117,21 @@ class Layers:
 
             outputs = tf.concat(outputs, axis=-1)
         return outputs
+
+    def max_pooling(self,X,mask):
+        """
+
+        :param X: (batch size, max sentence len, max word len, char dim)
+        :param mask: binary mask (batch size, max sent len, max word len, char dim)
+        :return: (batch size, max sent len, char dim)
+        """
+        condition = tf.equal(mask,tf.ones_like(mask)*self.config['model']['padding_char_index'])
+        # -inf mask
+        mask = tf.where(condition,tf.ones_like(mask)*(-float('inf')),tf.zeros_like(mask))
+        X = tf.add(X,mask)
+        # (batch size, max sent len, char dim)
+        X = tf.reduce_max(X,axis=-2)
+        return X
 
     def attr_matrix(self,name=''):
         """

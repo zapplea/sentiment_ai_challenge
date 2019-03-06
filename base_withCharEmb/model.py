@@ -20,14 +20,20 @@ class Model:
         char_mask = self.layers.padded_char_mask(char_X_id)
         # (batch size, max sent len, max word len, char dim)
         char_X = self.layers.lookup(char_X_id,char_table,char_mask)
-        # (batch size, max sent len, max word len * char dim)
-        char_X = tf.reshape(char_X,shape=(-1,self.config['model']['max_sent_len'],self.config['model']['max_word_len']*self.config['model']['char_dim']))
-        # (batch size, max sent len, word dim + max word len * char dim)
+        char_seq_len = self.layers.sequence_length(char_X_id)
+
+        # char_biSRU
+        bisru_name = 'char_biSRU'
+        # (batch size, max sent len, max word len, char dim)
+        char_X = self.layers.biSRU(char_X, char_seq_len, dim = self.config['model']['biSRU']['char_rnn_dim'], name=bisru_name)
+        # (batch size, max sent len, char dim)
+        char_X = self.layers.max_pooling(char_X,char_mask)
+        # (batch size, max sent len, word dim + char dim)
         X = tf.concat([X,char_X],axis=-1)
         bisru_name = 'share'
         for i in range(self.config['model']['biSRU']['shared_layers_num']):
             # (batch size, max sent len, rnn_dim)
-            X = self.layers.biSRU(X,seq_len,name=bisru_name)
+            X = self.layers.biSRU(X,seq_len,dim=self.config['model']['biSRU']['rnn_dim'],name=bisru_name)
         graph = tf.get_default_graph()
         tf.add_to_collection('reg',tf.contrib.layers.l2_regularizer(self.config['model']['reg_rate'])(
             graph.get_tensor_by_name('biSRU_%s/bidirectional_rnn/fw/sru_cell/kernel:0'%bisru_name)))
@@ -37,7 +43,7 @@ class Model:
         sent_repr_ls = []
         for i in range(self.config['model']['biSRU']['separated_layers_num']):
             bisru_name = 'sep_layer'+str(i)
-            X = self.layers.biSRU(X,seq_len,name=bisru_name)
+            X = self.layers.biSRU(X,seq_len, dim=self.config['model']['biSRU']['rnn_dim'], name=bisru_name)
             tf.add_to_collection('reg', tf.contrib.layers.l2_regularizer(self.config['model']['reg_rate'])(
                 graph.get_tensor_by_name('biSRU_%s/bidirectional_rnn/fw/sru_cell/kernel:0' % bisru_name)))
             tf.add_to_collection('reg', tf.contrib.layers.l2_regularizer(self.config['model']['reg_rate'])(
