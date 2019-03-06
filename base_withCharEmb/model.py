@@ -38,6 +38,7 @@ class Model:
         char_X = tf.reshape(char_X,shape=(-1,self.config['model']['max_sent_len'],self.config['model']['max_word_len'],self.config['model']['char_dim']))
         # (batch size, max sent len, char dim)
         char_X = self.layers.max_pooling(char_X,char_mask)
+        tf.add_to_collection('char_X',char_X)
         # (batch size, max sent len, word dim + char dim)
         X = tf.concat([X,char_X],axis=-1)
         bisru_name = 'share'
