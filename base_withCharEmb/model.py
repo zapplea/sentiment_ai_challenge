@@ -30,6 +30,7 @@ class Model:
         char_X = tf.reshape(char_X,shape=(-1,self.config['model']['max_word_len'],self.config['model']['char_dim']))
         # (batch size*max sent len, max word len, char dim)
         char_X = self.layers.biSRU(char_X, char_seq_len, dim = self.config['model']['biSRU']['char_rnn_dim'], name=bisru_name)
+        graph = tf.get_default_graph()
         tf.add_to_collection('reg', tf.contrib.layers.l2_regularizer(self.config['model']['reg_rate'])(
             graph.get_tensor_by_name('biSRU_%s/bidirectional_rnn/fw/sru_cell/kernel:0' % bisru_name)))
         tf.add_to_collection('reg', tf.contrib.layers.l2_regularizer(self.config['model']['reg_rate'])(
