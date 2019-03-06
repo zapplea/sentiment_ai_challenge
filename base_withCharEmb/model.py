@@ -21,7 +21,7 @@ class Model:
         # (batch size, max sent len, max word len, char dim)
         char_X = self.layers.lookup(char_X_id,char_table,char_mask)
         char_seq_len = self.layers.sequence_length(char_X_id)
-        print(tf.shape(char_seq_len))
+        print(char_seq_len.get_shape())
         exit()
 
         # char_biSRU
