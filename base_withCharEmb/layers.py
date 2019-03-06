@@ -90,12 +90,12 @@ class Layers:
         condition = tf.equal(padding_id, X_id)
         print('condition: ',condition.get_shape())
         print(tf.where(condition, tf.zeros_like(X_id, dtype='int32'), tf.ones_like(X_id, dtype='int32')).get_shape())
-        seq_len = tf.reduce_sum(tf.where(condition, tf.zeros_like(X_id, dtype='int32'), tf.ones_like(X_id, dtype='int32')),axis=2)
+        seq_len = tf.reduce_sum(tf.where(condition, tf.zeros_like(X_id, dtype='int32'), tf.ones_like(X_id, dtype='int32')),axis=-1)
         print('==========')
         return seq_len
 
     def char_sequence_length(self,char_id):
-        padding_id = tf.ones_like(char_id, dtype='int32') * self.config['model']['padding_word_index']
+        padding_id = tf.ones_like(char_id, dtype='int32') * self.config['model']['padding_char_index']
         print('padding id: ', padding_id.get_shape())
         condition = tf.equal(padding_id, char_id)
         print('condition: ', condition.get_shape())
