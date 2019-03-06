@@ -90,7 +90,7 @@ class Layers:
         condition = tf.equal(padding_id, X_id)
         print('condition: ',condition.get_shape())
         print(tf.where(condition, tf.zeros_like(X_id, dtype='int32'), tf.ones_like(X_id, dtype='int32')).get_shape())
-        seq_len = tf.reduce_sum(tf.where(condition, tf.zeros_like(X_id, dtype='int32'), tf.ones_like(X_id, dtype='int32')),axis=-1)
+        seq_len = tf.reduce_sum(tf.where(condition, tf.zeros_like(X_id, dtype='int32'), tf.ones_like(X_id, dtype='int32')),axis=2)
         print('==========')
         return seq_len
 
