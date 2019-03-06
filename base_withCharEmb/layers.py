@@ -130,6 +130,8 @@ class Layers:
         X = tf.add(X,mask)
         # (batch size, max sent len, char dim)
         X = tf.reduce_max(X,axis=-2)
+        condition = tf.is_inf(X)
+        X = tf.where(condition,tf.zeros_like(X),X)
         return X
 
     def attr_matrix(self,name=''):
