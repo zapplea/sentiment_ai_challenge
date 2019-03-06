@@ -15,7 +15,6 @@ class Model:
         # (batch size, max sent len, word dim)
         X = self.layers.lookup(X_id,table,mask)
         seq_len = self.layers.sequence_length(X_id,self.config['model']['padding_word_index'])
-        print('word seq len: ',seq_len.get_shape())
 
         char_table = self.layers.char_embedding_table()
         char_mask = self.layers.padded_char_mask(char_X_id)
