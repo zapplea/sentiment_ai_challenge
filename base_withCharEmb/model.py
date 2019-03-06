@@ -24,12 +24,12 @@ class Model:
         print('char id: ',char_X_id.get_shape())
         char_seq_len = self.layers.char_sequence_length(char_X_id)
         print('char seq len: ',char_seq_len.get_shape())
-        exit()
 
         # char_biSRU
-        bisru_name = 'char_biSRU'
+        bisru_name = 'char'
         # (batch size, max sent len, max word len, char dim)
         char_X = self.layers.biSRU(char_X, char_seq_len, dim = self.config['model']['biSRU']['char_rnn_dim'], name=bisru_name)
+        exit()
         # (batch size, max sent len, char dim)
         char_X = self.layers.max_pooling(char_X,char_mask)
         # (batch size, max sent len, word dim + char dim)
