@@ -101,7 +101,7 @@ class Layers:
         print('condition: ', condition.get_shape())
         print(tf.where(condition, tf.zeros_like(char_id, dtype='int32'), tf.ones_like(char_id, dtype='int32')).get_shape())
         seq_len = tf.reduce_sum(
-            tf.where(condition, tf.zeros_like(char_id, dtype='int32'), tf.ones_like(char_id, dtype='int32')), axis=-1)
+            tf.where(condition, tf.zeros_like(char_id, dtype='int32'), tf.ones_like(char_id, dtype='int32')), axis=2)
         print('==========')
         return seq_len
 
