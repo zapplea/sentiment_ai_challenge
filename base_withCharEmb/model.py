@@ -21,7 +21,7 @@ class Model:
         # (batch size, max sent len, max word len, char dim)
         char_X = self.layers.lookup(char_X_id,char_table,char_mask)
         print('char id: ',char_X_id.get_shape())
-        char_seq_len = self.layers.sequence_length(char_X_id)
+        char_seq_len = self.layers.char_sequence_length(char_X_id)
         print('char seq len: ',char_seq_len.get_shape())
         exit()
 
