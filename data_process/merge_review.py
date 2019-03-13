@@ -33,6 +33,9 @@ class MergeReview:
             new_word_dic[word]=i
         return new_word_dic, np.array(new_wordsVec).astype('float32')
 
+    def load_cweWordsVec(self):
+        pass
+
     def load_train_data(self):
         assert os.path.exists(self.configs['train_data_path']) and os.path.getsize(self.configs['train_data_path']) > 0
 
@@ -79,11 +82,18 @@ class MergeReview:
             new_review = []
             for j in range(shape[1]):
                 sentence = reviews[i][j]
+                # eliminate padded word id
                 condition = np.not_equal(sentence,pad_id)
                 # new_review+= sentence[condition].tolist()
                 for word_id in sentence[condition].tolist():
-                    if re.search(u'[\u4e00-\u9fff]',id_to_word[word_id]):
+                    # eliminate None Chinese word
+                    # if re.search(u'[\u4e00-\u9fff]',id_to_word[word_id]):
+                    #     new_review.append(word_id)
+                    # eliminate word length greater than max char len
+                    if len(list(id_to_word[word_id]))<self.configs['max_word_len']:
                         new_review.append(word_id)
+                    else:
+                        new_review.append(word_dic['#UNK#'])
             if len(new_review)<max_len:
                 pad_len = max_len - len(new_review)
                 new_review+=np.zeros(shape=(pad_len,)).tolist()
@@ -104,6 +114,9 @@ class MergeReview:
 
         return char_ls, np.array(vec_ls).astype('float32')
 
+    def load_cwecharEmb(self):
+        pass
+
     def doc_to_char(self,review,word_dic,char_ls,char_vecs):
         """
 
@@ -115,7 +128,7 @@ class MergeReview:
         for word in word_dic:
             id_to_word[word_dic[word]] = word
         allreviews_char_id_ls = []
-        max_char = 11
+        max_char = self.configs['max_word_len']
         for i in range(review.shape[0]):
             review_char_id_ls = []
             for j in range(review.shape[1]):
@@ -213,6 +226,7 @@ if __name__ == "__main__":
               'charEmb_path':'/datastore/liu121/charEmb/aic2018_glove_charVec.txt',
               'is_charEmb':True,
               'up':None,
+              'max_word_len':11
              }
     mr = MergeReview(config)
     mr.main()
