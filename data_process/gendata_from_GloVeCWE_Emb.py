@@ -256,7 +256,8 @@ class GenDataGloVeCWE:
         print('max review len: ',max_review_len)
         print('max sent len: ',max_sent_len)
         print('second sent len: ',second_sent_len)
-        print('freq: ',freq)
+        print('freq_train: ',freq_train)
+        print('freq_val: ',freq_val)
 
 
 
