@@ -164,14 +164,16 @@ class GenDataGloVeCWE:
                 if label[i] in {1, 0, -1}:
                     attr_label_ls.append(1)
                     if label[i] == 1:
-                        senti_label_ls.append([1, 0, 0])
+                        senti_label_ls.append([1, 0, 0,0])
                     elif label[i] == 0:
-                        senti_label_ls.append([0, 1, 0])
+                        senti_label_ls.append([0, 1, 0,0])
                     else:
-                        senti_label_ls.append([0, 0, 1])
+                        senti_label_ls.append([0, 0, 1,0])
                 else:
                     attr_label_ls.append(0)
-                    senti_label_ls.append([0, 0, 0])
+                    senti_label_ls.append([0, 0, 0,1])
+            print(attr_label_ls)
+            print(senti_label_ls)
             prepared_attr_label_collection.append(attr_label_ls)
             prepared_senti_label_collection.append(senti_label_ls)
         return prepared_review_collection, prepared_attr_label_collection, prepared_senti_label_collection, prepared_char_collection
