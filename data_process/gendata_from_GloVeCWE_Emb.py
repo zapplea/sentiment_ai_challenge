@@ -29,7 +29,7 @@ class GenDataGloVeCWE:
         data = pd.read_pickle(fname)
         label_collection = data[:,2]
         review_collection = data[:,1]
-        review_collection = GenDataGloVeCWE.split(review_collection, self.config)
+        review_collection = GenDataGloVeCWE.split_sentence(review_collection, self.config)
         prepared_review_collection = []
         prepared_attr_label_collection = []
         prepared_senti_label_collection = []
@@ -111,7 +111,7 @@ class GenDataGloVeCWE:
         data = pd.read_pickle(fname)
         label_collection = data[:, 2]
         review_collection = data[:, 1]
-        review_collection = GenDataGloVeCWE.split(review_collection,self.config)
+        review_collection = GenDataGloVeCWE.split_sentence(review_collection,self.config)
         prepared_review_collection = []
         prepared_attr_label_collection = []
         prepared_senti_label_collection = []
@@ -197,7 +197,7 @@ class GenDataGloVeCWE:
                     self.val_senti_label_collection)
         self.write(self.config['training_data']['dev_path'],dev_data)
     @staticmethod
-    def split(data,config):
+    def split_sentence(data,config):
         new_data=[]
         for review in data:
             new_review = []
@@ -217,6 +217,13 @@ class GenDataGloVeCWE:
                 else:
                     new_review.append(' '.join(sentence))
             new_data.append(new_review)
+        for review in new_data:
+            for sentence in review:
+                sentence = sentence.split(' ')
+                if len(sentence)>200:
+                    print(len(sentence))
+                    print(sentence)
+                    
         return new_data
 
     @staticmethod
@@ -240,7 +247,7 @@ class GenDataGloVeCWE:
         fname = config['corpus']['train_path']
         train_data = pd.read_pickle(fname)
         review_collection = train_data[:, 1]
-        review_collection = GenDataGloVeCWE.split(review_collection, config)
+        review_collection = GenDataGloVeCWE.split_sentence(review_collection, config)
         max_review = None
         max_sentence = None
         max_review_len = 0
@@ -265,7 +272,7 @@ class GenDataGloVeCWE:
         fname = config['corpus']['val_path']
         dev_data = pd.read_pickle(fname)
         review_collection = dev_data[:, 1]
-        review_collection = GenDataGloVeCWE.split(review_collection, config)
+        review_collection = GenDataGloVeCWE.split_sentence(review_collection, config)
         for review in review_collection:
             if len(review) > max_review_len:
                 max_review_len=len(review)
@@ -296,12 +303,12 @@ if __name__ == "__main__":
                         'padding_word':'#PAD#',
                         'padding_char':'#PAD#',
                         'max_sentence_len':200,
-                        'max_review_len':None,
+                        'max_review_len':34,
                         'old_train_data_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_train_data_withChar.pkl'},
               'emb':{'wordEmb_path':'/datastore/liu121/wordEmb/aic2018cwe_wordEmb.pkl',
                      'charEmb_path':'/datastore/liu121/charEmb/aic2018cwe_charEmb.pkl'},
               'training_data':{'train_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/merged_train_cwe.pkl',
                                'dev_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/merged_dev_cwe.pkl'}}
-    GenDataGloVeCWE.stats(config)
-    # gen=GenDataGloVeCWE(config)
-    # gen.prepare_data()
+    # GenDataGloVeCWE.stats(config)
+    gen=GenDataGloVeCWE(config)
+    gen.prepare_data()
