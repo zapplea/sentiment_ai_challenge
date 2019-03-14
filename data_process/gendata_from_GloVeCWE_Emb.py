@@ -89,6 +89,9 @@ class GenDataGloVeCWE:
             prepared_char_collection.append(reviewCharID_ls)
 
             label = label_collection[j]
+            print(label_collection)
+            print(label)
+            exit()
             attr_label_ls = []
             senti_label_ls = []
             for i in range(len(label)):
@@ -309,6 +312,6 @@ if __name__ == "__main__":
                      'charEmb_path':'/datastore/liu121/charEmb/aic2018cwe_charEmb.pkl'},
               'training_data':{'train_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/merged_train_cwe.pkl',
                                'dev_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/merged_dev_cwe.pkl'}}
-    GenDataGloVeCWE.stats(config)
-    # gen=GenDataGloVeCWE(config)
-    # gen.prepare_data()
+    # GenDataGloVeCWE.stats(config)
+    gen=GenDataGloVeCWE(config)
+    gen.prepare_data()
