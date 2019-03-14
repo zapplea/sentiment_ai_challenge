@@ -27,6 +27,8 @@ class GenDataGloVeCWE:
 
     def read_corpus(self,fname):
         data = pd.read_pickle(fname)
+        print(len(data[0]))
+        exit()
         label_collection = data[:,2]
         review_collection = data[:,1]
         review_collection = GenDataGloVeCWE.split_sentence(review_collection, self.config)
