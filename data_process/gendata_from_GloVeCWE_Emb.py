@@ -223,7 +223,7 @@ class GenDataGloVeCWE:
                 if len(sentence)>200:
                     print(len(sentence))
                     print(sentence)
-                    
+
         return new_data
 
     @staticmethod
@@ -309,6 +309,6 @@ if __name__ == "__main__":
                      'charEmb_path':'/datastore/liu121/charEmb/aic2018cwe_charEmb.pkl'},
               'training_data':{'train_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/merged_train_cwe.pkl',
                                'dev_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/merged_dev_cwe.pkl'}}
-    # GenDataGloVeCWE.stats(config)
-    gen=GenDataGloVeCWE(config)
-    gen.prepare_data()
+    GenDataGloVeCWE.stats(config)
+    # gen=GenDataGloVeCWE(config)
+    # gen.prepare_data()
