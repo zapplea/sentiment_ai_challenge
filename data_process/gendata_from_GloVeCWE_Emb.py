@@ -18,12 +18,15 @@ class GenDataGloVeCWE:
             dic = pickle.load(f)
             self.word_to_id = dic['word_to_id']
             self.word_embeddings = dic['word_embeddings']
+            print('vocab size: ',len(self.word_to_id))
 
     def load_char_embeddings(self):
         with open(self.config['emb']['charEmb_path'],'rb') as f:
             dic = pickle.load(f)
             self.char_to_id = dic['char_to_id']
             self.char_embeddings = dic['char_embeddings']
+            print('char vocab size: ',len(self.char_to_id))
+            exit()
 
     def read_corpus(self,fname):
         # TODO: need to check whehter the padding is correct
