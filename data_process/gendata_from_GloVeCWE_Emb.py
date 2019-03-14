@@ -202,6 +202,7 @@ class GenDataGloVeCWE:
             for sentence in review:
                 sentence = sentence.split(' ')
                 if len(sentence)>config['corpus']['max_sentence_len']:
+                    print('sentence length: ',len(sentence))
                     print('sentence: ',sentence)
                     multiple = len(sentence)//config['corpus']['max_sentence_len']
                     print('multiple: ',multiple)
