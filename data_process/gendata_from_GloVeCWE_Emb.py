@@ -160,6 +160,7 @@ class GenDataGloVeCWE:
             label = label_collection[j]
             attr_label_ls = []
             senti_label_ls = []
+            print(label)
             for i in range(len(label)):
                 if label[i] in {1, 0, -1}:
                     attr_label_ls.append(1)
