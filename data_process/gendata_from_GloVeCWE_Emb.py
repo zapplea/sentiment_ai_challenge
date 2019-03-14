@@ -203,6 +203,7 @@ class GenDataGloVeCWE:
         max_sentence = None
         max_review_len = 0
         max_sent_len = 0
+        second_sent_len =0
         for review in review_collection:
             if len(review) > max_review_len:
                 max_review_len=len(review)
@@ -211,8 +212,9 @@ class GenDataGloVeCWE:
                 sentence=sentence.split(' ')
                 if len(sentence)>max_sent_len:
                     max_sent_len=len(sentence)
-                    max_sentence = sentence
-                    max_review = review
+                else:
+                    if len(sentence)>second_sent_len:
+                        second_sent_len=len(sentence)
 
         fname = config['corpus']['val_path']
         dev_data = pd.read_pickle(fname)
@@ -220,17 +222,16 @@ class GenDataGloVeCWE:
         for review in review_collection:
             if len(review) > max_review_len:
                 max_review_len=len(review)
-                max_review = review
             for sentence in review:
                 sentence=sentence.split(' ')
                 if len(sentence)>max_sent_len:
                     max_sent_len=len(sentence)
-                    max_sentence = sentence
-                    max_review = review
+                else:
+                    if len(sentence)>second_sent_len:
+                        second_sent_len=len(sentence)
         print('max review len: ',max_review_len)
-        print('max review:\n',max_review)
         print('max sent len: ',max_sent_len)
-        print('max sent: \n',max_sentence)
+        print('second sent len: ',second_sent_len)
 
 
 
