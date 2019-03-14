@@ -26,7 +26,6 @@ class GenDataGloVeCWE:
             self.char_to_id = dic['char_to_id']
             self.char_embeddings = dic['char_embeddings']
             print('char vocab size: ',len(self.char_to_id))
-            exit()
 
     def read_corpus(self,fname):
         # TODO: need to check whehter the padding is correct
