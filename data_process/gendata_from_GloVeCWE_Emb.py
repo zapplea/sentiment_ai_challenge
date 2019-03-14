@@ -26,6 +26,7 @@ class GenDataGloVeCWE:
             self.char_embeddings = dic['char_embeddings']
 
     def read_corpus(self,fname):
+        print('read corpus')
         data = pd.read_pickle(fname)
         label_collection = data[:,2:]
         review_collection = data[:,1]
@@ -89,9 +90,6 @@ class GenDataGloVeCWE:
             prepared_char_collection.append(reviewCharID_ls)
 
             label = label_collection[j]
-            print(label_collection)
-            print(label)
-            exit()
             attr_label_ls = []
             senti_label_ls = []
             for i in range(len(label)):
@@ -111,8 +109,9 @@ class GenDataGloVeCWE:
         return prepared_review_collection,prepared_attr_label_collection,prepared_senti_label_collection,prepared_char_collection
 
     def merged_read_corpus(self,fname):
+        print('merged read corpus')
         data = pd.read_pickle(fname)
-        label_collection = data[:, 2]
+        label_collection = data[:, 2:]
         review_collection = data[:, 1]
         review_collection = GenDataGloVeCWE.split_sentence(review_collection,self.config)
         prepared_review_collection = []
@@ -177,11 +176,11 @@ class GenDataGloVeCWE:
 
     def load_training_data(self):
         self.train_review_collection,self.train_attr_label_collection,self.train_senti_label_collection,self.train_char_collection= \
-            self.read_corpus(self.config['corpus']['train_path'])
+            self.merged_read_corpus(self.config['corpus']['train_path'])
 
     def load_validation_data(self):
         self.val_review_collection,self.val_attr_label_collection, self.val_senti_label_collection, self.val_char_collection = \
-            self.read_corpus(self.config['corpus']['val_path'])
+            self.merged_read_corpus(self.config['corpus']['val_path'])
 
     def load_attr_dic(self):
         with open(self.config['corpus']['old_train_data_path'],'rb') as f:
