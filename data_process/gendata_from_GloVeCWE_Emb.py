@@ -202,8 +202,11 @@ class GenDataGloVeCWE:
             for sentence in review:
                 sentence = sentence.split(' ')
                 if len(sentence)>config['corpus']['max_sentence_len']:
+                    print('sentence: ',sentence)
                     multiple = len(sentence)//config['corpus']['max_sentence_len']
+                    print('multiple: ',multiple)
                     mod = len(sentence)%config['corpus']['max_sentence_len']
+                    print('mod: ',mod)
                     if mod == 0:
                         rng = multiple
                     else:
@@ -212,6 +215,7 @@ class GenDataGloVeCWE:
                         start = i*config['corpus']['max_sentence_len']
                         stop = start+config['corpus']['max_sentence_len']-1
                         new_review.append(' '.join(sentence[start:stop]))
+                    print('new review: ',new_review)
                 else:
                     new_review.append(' '.join(sentence))
             new_data.append(new_review)
