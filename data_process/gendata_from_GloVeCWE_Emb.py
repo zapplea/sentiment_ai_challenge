@@ -248,12 +248,16 @@ class GenDataGloVeCWE:
         max_review_len = 0
         max_sent_len = 0
         second_sent_len =0
+        max_merged_sentence_len = 0
         for review in review_collection:
+            merged_review = []
             if len(review) > max_review_len:
                 max_review_len=len(review)
 
             for sentence in review:
                 sentence=sentence.split(' ')
+                for word in sentence:
+                    merged_review.append(word)
                 for key in freq_train:
                     if len(sentence) in key:
                         freq_train[key]+=1
@@ -263,16 +267,21 @@ class GenDataGloVeCWE:
                 else:
                     if len(sentence)>second_sent_len:
                         second_sent_len=len(sentence)
+            if len(merged_review)<max_merged_sentence_len:
+                max_merged_sentence_len=len(merged_review)
 
         fname = config['corpus']['val_path']
         dev_data = pd.read_pickle(fname)
         review_collection = dev_data[:, 1]
         review_collection = GenDataGloVeCWE.split_sentence(review_collection, config)
         for review in review_collection:
+            merged_review = []
             if len(review) > max_review_len:
                 max_review_len=len(review)
             for sentence in review:
                 sentence=sentence.split(' ')
+                for word in sentence:
+                    merged_review.append(word)
                 for key in freq_val:
                     if len(sentence) in key:
                         freq_val[key]+=1
@@ -282,11 +291,14 @@ class GenDataGloVeCWE:
                 else:
                     if len(sentence)>second_sent_len:
                         second_sent_len=len(sentence)
+            if len(merged_review)<max_merged_sentence_len:
+                max_merged_sentence_len=len(merged_review)
         print('max review len: ',max_review_len)
         print('max sent len: ',max_sent_len)
         print('second sent len: ',second_sent_len)
         print('freq_train: ',freq_train)
         print('freq_val: ',freq_val)
+        print('max merged review len: ',max_merged_sentence_len)
 
 
 
@@ -304,6 +316,6 @@ if __name__ == "__main__":
                      'charEmb_path':'/datastore/liu121/charEmb/aic2018cwe_charEmb.pkl'},
               'training_data':{'train_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/cwe_merged_train.pkl',
                                'dev_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/cwe_merged_dev.pkl'}}
-    # GenDataGloVeCWE.stats(config)
-    gen=GenDataGloVeCWE(config)
-    gen.prepare_data()
+    GenDataGloVeCWE.stats(config)
+    # gen=GenDataGloVeCWE(config)
+    # gen.prepare_data()
