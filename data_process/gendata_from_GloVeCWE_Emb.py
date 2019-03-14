@@ -312,8 +312,8 @@ if __name__ == "__main__":
                         'old_train_data_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_train_data_withChar.pkl'},
               'emb':{'wordEmb_path':'/datastore/liu121/wordEmb/aic2018cwe_wordEmb.pkl',
                      'charEmb_path':'/datastore/liu121/charEmb/aic2018cwe_charEmb.pkl'},
-              'training_data':{'train_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/merged_train_cwe.pkl',
-                               'dev_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/merged_dev_cwe.pkl'}}
+              'training_data':{'train_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/cwe_merged_train.pkl',
+                               'dev_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/cwe_merged_dev.pkl'}}
     # GenDataGloVeCWE.stats(config)
     gen=GenDataGloVeCWE(config)
     gen.prepare_data()
