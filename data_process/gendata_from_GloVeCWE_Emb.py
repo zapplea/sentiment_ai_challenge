@@ -174,6 +174,7 @@ class GenDataGloVeCWE:
                     senti_label_ls.append([0, 0, 0,1])
             print(attr_label_ls)
             print(senti_label_ls)
+            exit()
             prepared_attr_label_collection.append(attr_label_ls)
             prepared_senti_label_collection.append(senti_label_ls)
         return prepared_review_collection, prepared_attr_label_collection, prepared_senti_label_collection, prepared_char_collection
