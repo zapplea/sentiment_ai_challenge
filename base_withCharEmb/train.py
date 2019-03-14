@@ -14,9 +14,9 @@ class SentiTrain:
             path = Path(self.config['train'][name])
             if not path.exists():
                 path.mkdir(parents=True, exist_ok=True)
-        self.config['train']['report_filePath'] = self.config['train']['report_filePath'] + '/baseWithMaxPoolingChar_report_reg%s_lr%s.info' % \
+        self.config['train']['report_filePath'] = self.config['train']['report_filePath'] + '/cwebaseWithMaxPoolingChar_report_reg%s_lr%s.info' % \
                                                (str(self.config['model']['reg_rate']), str(self.config['model']['lr']))
-        self.config['train']['sr_path'] = self.config['train']['sr_path'] + '/baseWithMaxPoolingChar_ckpt_reg%s_lr%s/model.ckpt'%\
+        self.config['train']['sr_path'] = self.config['train']['sr_path'] + '/cwebaseWithMaxPoolingChar_ckpt_reg%s_lr%s/model.ckpt'%\
                                           (str(self.config['model']['reg_rate']), str(self.config['model']['lr']))
 
         self.outf = open(self.config['train']['report_filePath'], 'w+')
