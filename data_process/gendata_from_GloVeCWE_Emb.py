@@ -196,7 +196,7 @@ class GenDataGloVeCWE:
         self.write(self.config['training_data']['dev_path'],dev_data)
     @staticmethod
     def stats(config):
-        freq={range(0,200):0,
+        freq_train={range(0,200):0,
               range(200,300):0,
               range(300,400):0,
               range(400,500):0,
@@ -204,6 +204,14 @@ class GenDataGloVeCWE:
               range(600,700):0,
               range(700,800):0,
               range(800,900):0}
+        freq_val = {range(0, 200): 0,
+                range(200, 300): 0,
+                range(300, 400): 0,
+                range(400, 500): 0,
+                range(500, 600): 0,
+                range(600, 700): 0,
+                range(700, 800): 0,
+                range(800, 900): 0}
         fname = config['corpus']['train_path']
         train_data = pd.read_pickle(fname)
         review_collection = train_data[:, 1]
@@ -218,9 +226,9 @@ class GenDataGloVeCWE:
 
             for sentence in review:
                 sentence=sentence.split(' ')
-                for key in freq:
+                for key in freq_train:
                     if len(sentence) in key:
-                        freq[key]+=1
+                        freq_train[key]+=1
                         break
                 if len(sentence)>max_sent_len:
                     max_sent_len=len(sentence)
@@ -236,9 +244,9 @@ class GenDataGloVeCWE:
                 max_review_len=len(review)
             for sentence in review:
                 sentence=sentence.split(' ')
-                for key in freq:
+                for key in freq_val:
                     if len(sentence) in key:
-                        freq[key]+=1
+                        freq_val[key]+=1
                         break
                 if len(sentence)>max_sent_len:
                     max_sent_len=len(sentence)
