@@ -228,8 +228,8 @@ class GenDataGloVeCWE:
 
     @staticmethod
     def stats(config):
-        freq_train={range(0,200):0,
-              range(200,300):0,
+        freq_train={range(0,201):0,
+              range(201,300):0,
               range(300,400):0,
               range(400,500):0,
               range(500,600):0,
