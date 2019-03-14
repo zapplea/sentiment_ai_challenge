@@ -216,6 +216,7 @@ class GenDataGloVeCWE:
                         stop = start+config['corpus']['max_sentence_len']-1
                         new_review.append(' '.join(sentence[start:stop]))
                     print('new review: ',new_review)
+                    exit()
                 else:
                     new_review.append(' '.join(sentence))
             new_data.append(new_review)
