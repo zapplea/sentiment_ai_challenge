@@ -209,7 +209,7 @@ class GenDataGloVeCWE:
                 if len(sentence)>max_sent_len:
                     max_sent_len=len(sentence)
 
-        fname = config['corpus']['dev_path']
+        fname = config['corpus']['val_path']
         dev_data = pd.read_pickle(fname)
         review_collection = train_data[:, 1]
         for review in review_collection:
