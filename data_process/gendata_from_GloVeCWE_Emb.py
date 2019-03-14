@@ -195,6 +195,29 @@ class GenDataGloVeCWE:
                     self.val_senti_label_collection)
         self.write(self.config['training_data']['dev_path'],dev_data)
     @staticmethod
+    def split(data,config):
+        new_data=[]
+        for review in data:
+            new_review = []
+            for sentence in new_review:
+                sentence = sentence.split(' ')
+                if len(sentence)>config['corpus']['max_sentence_len']:
+                    multiple = len(sentence)//config['corpus']['max_sentence_len']
+                    mod = len(sentence)%config['corpus']['max_sentence_len']
+                    if mod == 0:
+                        rng = multiple
+                    else:
+                        rng = multiple+1
+                    for i in range(rng):
+                        start = i*config['corpus']['max_sentence_len']
+                        stop = start+config['corpus']['max_sentence_len']-1
+                        new_review.append(' '.join(sentence[start:stop]))
+                else:
+                    new_review.append(' '.join(sentence))
+        new_data.append(new_review)
+        return new_data
+
+    @staticmethod
     def stats(config):
         freq_train={range(0,200):0,
               range(200,300):0,
@@ -268,8 +291,8 @@ if __name__ == "__main__":
                         'unknown_word':'#UNK#',
                         'padding_word':'#PAD#',
                         'padding_char':'#PAD#',
-                        'max_sentence_len':842,
-                        'max_review_len':30,
+                        'max_sentence_len':200,
+                        'max_review_len':None,
                         'old_train_data_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_train_data_withChar.pkl'},
               'emb':{'wordEmb_path':'/datastore/liu121/wordEmb/aic2018cwe_wordEmb.pkl',
                      'charEmb_path':'/datastore/liu121/charEmb/aic2018cwe_charEmb.pkl'},
