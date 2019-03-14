@@ -120,7 +120,7 @@ class GenDataGloVeCWE:
         prepared_char_collection = []
         # Fixed: for padded words, it also needs char
         for j in range(len(review_collection)):
-            if j == 1000:
+            if j == 100:
                 break
             review = review_collection[j]
             reviewID_ls = []
