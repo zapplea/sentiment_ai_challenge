@@ -120,8 +120,6 @@ class GenDataGloVeCWE:
         prepared_char_collection = []
         # Fixed: for padded words, it also needs char
         for j in range(len(review_collection)):
-            if j == 100:
-                break
             review = review_collection[j]
             reviewID_ls = []
             reviewCharID_ls = []
@@ -160,7 +158,6 @@ class GenDataGloVeCWE:
             label = label_collection[j]
             attr_label_ls = []
             senti_label_ls = []
-            print(label)
             for i in range(len(label)):
                 if label[i] in {1, 0, -1}:
                     attr_label_ls.append(1)
@@ -222,13 +219,6 @@ class GenDataGloVeCWE:
                 else:
                     new_review.append(' '.join(sentence))
             new_data.append(new_review)
-        for review in new_data:
-            for sentence in review:
-                sentence = sentence.split(' ')
-                if len(sentence)>200:
-                    print(len(sentence))
-                    print(sentence)
-
         return new_data
 
     @staticmethod
