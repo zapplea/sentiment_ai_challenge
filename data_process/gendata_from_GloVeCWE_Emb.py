@@ -199,28 +199,37 @@ class GenDataGloVeCWE:
         fname = config['corpus']['train_path']
         train_data = pd.read_pickle(fname)
         review_collection = train_data[:, 1]
+        max_review = None
+        max_sentence = None
         max_review_len = 0
         max_sent_len = 0
         for review in review_collection:
             if len(review) > max_review_len:
                 max_review_len=len(review)
+                max_review = review
             for sentence in review:
                 sentence=sentence.split(' ')
                 if len(sentence)>max_sent_len:
                     max_sent_len=len(sentence)
+                    max_sentence = sentence
 
         fname = config['corpus']['val_path']
         dev_data = pd.read_pickle(fname)
-        review_collection = train_data[:, 1]
+        review_collection = dev_data[:, 1]
         for review in review_collection:
             if len(review) > max_review_len:
                 max_review_len=len(review)
+                max_review = review
             for sentence in review:
                 sentence=sentence.split(' ')
                 if len(sentence)>max_sent_len:
                     max_sent_len=len(sentence)
+                    max_sentence = sentence
         print('max review len: ',max_review_len)
+        print('max review:\n',max_review)
         print('max sent len: ',max_sent_len)
+        print('max sent: \n',max_sentence)
+
 
 
 if __name__ == "__main__":
@@ -230,8 +239,8 @@ if __name__ == "__main__":
                         'unknown_word':'#UNK#',
                         'padding_word':'#PAD#',
                         'padding_char':'#PAD#',
-                        'max_sentence_len':None,
-                        'max_review_len':None,
+                        'max_sentence_len':842,
+                        'max_review_len':30,
                         'old_train_data_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_train_data_withChar.pkl'},
               'emb':{'wordEmb_path':'/datastore/liu121/wordEmb/aic2018cwe_wordEmb.pkl',
                      'charEmb_path':'/datastore/liu121/charEmb/aic2018cwe_charEmb.pkl'},
