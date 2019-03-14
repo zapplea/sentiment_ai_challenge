@@ -199,7 +199,7 @@ class GenDataGloVeCWE:
         new_data=[]
         for review in data:
             new_review = []
-            for sentence in new_review:
+            for sentence in review:
                 sentence = sentence.split(' ')
                 if len(sentence)>config['corpus']['max_sentence_len']:
                     multiple = len(sentence)//config['corpus']['max_sentence_len']
@@ -214,7 +214,7 @@ class GenDataGloVeCWE:
                         new_review.append(' '.join(sentence[start:stop]))
                 else:
                     new_review.append(' '.join(sentence))
-        new_data.append(new_review)
+            new_data.append(new_review)
         return new_data
 
     @staticmethod
@@ -238,6 +238,7 @@ class GenDataGloVeCWE:
         fname = config['corpus']['train_path']
         train_data = pd.read_pickle(fname)
         review_collection = train_data[:, 1]
+        review_collection = GenDataGloVeCWE.split(review_collection, config)
         max_review = None
         max_sentence = None
         max_review_len = 0
@@ -262,6 +263,7 @@ class GenDataGloVeCWE:
         fname = config['corpus']['val_path']
         dev_data = pd.read_pickle(fname)
         review_collection = dev_data[:, 1]
+        review_collection = GenDataGloVeCWE.split(review_collection, config)
         for review in review_collection:
             if len(review) > max_review_len:
                 max_review_len=len(review)
