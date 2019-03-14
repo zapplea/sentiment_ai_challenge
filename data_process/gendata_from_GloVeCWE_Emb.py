@@ -267,7 +267,7 @@ class GenDataGloVeCWE:
                 else:
                     if len(sentence)>second_sent_len:
                         second_sent_len=len(sentence)
-            if len(merged_review)<max_merged_sentence_len:
+            if len(merged_review)>max_merged_sentence_len:
                 max_merged_sentence_len=len(merged_review)
 
         fname = config['corpus']['val_path']
@@ -291,7 +291,7 @@ class GenDataGloVeCWE:
                 else:
                     if len(sentence)>second_sent_len:
                         second_sent_len=len(sentence)
-            if len(merged_review)<max_merged_sentence_len:
+            if len(merged_review)>max_merged_sentence_len:
                 max_merged_sentence_len=len(merged_review)
         print('max review len: ',max_review_len)
         print('max sent len: ',max_sent_len)
