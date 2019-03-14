@@ -26,6 +26,7 @@ class GenDataGloVeCWE:
             self.char_embeddings = dic['char_embeddings']
 
     def read_corpus(self,fname):
+        # TODO: need to check whehter the padding is correct
         print('read corpus')
         data = pd.read_pickle(fname)
         label_collection = data[:,2:]
@@ -120,6 +121,8 @@ class GenDataGloVeCWE:
         prepared_char_collection = []
         # Fixed: for padded words, it also needs char
         for j in range(len(review_collection)):
+            if j == 100:
+                break
             review = review_collection[j]
             reviewID_ls = []
             reviewCharID_ls = []
@@ -147,8 +150,8 @@ class GenDataGloVeCWE:
                             shape = (self.config['corpus']['max_word_len'] - len(charID_ls),)
                             charID_ls.extend((np.ones(shape=shape, dtype='int32') * self.char_to_id[self.config['corpus']['padding_char']]).tolist())
                         reviewCharID_ls.append(charID_ls)
-            if len(reviewID_ls)<self.config['corpus']['max_review_len']*self.config['corpus']['max_sentence_len']:
-                dim0 = self.config['corpus']['max_review_len']*self.config['corpus']['max_sentence_len'] - len(reviewID_ls)
+            if len(reviewID_ls)<self.config['corpus']['max_merged_review_len']:
+                dim0 = self.config['corpus']['max_merged_review_len'] - len(reviewID_ls)
                 dim1 = self.config['corpus']['max_word_len']
                 reviewID_ls.extend((np.ones(shape=(dim0,),dtype='int32')*self.word_to_id[self.config['corpus']['padding_word']]).tolist())
                 reviewCharID_ls.extend((np.ones(shape=(dim0,dim1),dtype='int32')*self.char_to_id[self.config['corpus']['padding_char']]).tolist())
@@ -172,7 +175,7 @@ class GenDataGloVeCWE:
                     senti_label_ls.append([0, 0, 0,1])
             prepared_attr_label_collection.append(attr_label_ls)
             prepared_senti_label_collection.append(senti_label_ls)
-        return prepared_review_collection, prepared_attr_label_collection, prepared_senti_label_collection, prepared_char_collection
+        return np.array(prepared_review_collection).astype('int32'), np.array(prepared_attr_label_collection).astype('float32'), np.array(prepared_senti_label_collection).astype('float32'), np.array(prepared_char_collection).astype('int32')
 
     def load_training_data(self):
         self.train_review_collection,self.train_attr_label_collection,self.train_senti_label_collection,self.train_char_collection= \
@@ -193,10 +196,14 @@ class GenDataGloVeCWE:
     def prepare_data(self,):
         training_data = (self.train_review_collection,self.train_char_collection,self.train_attr_label_collection,
                          self.train_senti_label_collection,self.attribute_dic,self.word_to_id,self.word_embeddings,self.char_embeddings)
+        print('train review shape: ',self.train_review_collection.shape)
+        print('train char shape: ',self.train_char_collection.shape)
         self.write(self.config['training_data']['train_path'],training_data)
 
         dev_data = (self.val_review_collection,self.val_char_collection,self.val_attr_label_collection,
                     self.val_senti_label_collection)
+        print('val review shape: ',self.val_review_collection.shape)
+        print('val char shape: ',self.val_char_collection.shape)
         self.write(self.config['training_data']['dev_path'],dev_data)
     @staticmethod
     def split_sentence(data,config):
@@ -311,11 +318,12 @@ if __name__ == "__main__":
                         'padding_char':'#PAD#',
                         'max_sentence_len':200,
                         'max_review_len':34,
+                        'max_merged_review_len':1141,
                         'old_train_data_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_train_data_withChar.pkl'},
               'emb':{'wordEmb_path':'/datastore/liu121/wordEmb/aic2018cwe_wordEmb.pkl',
                      'charEmb_path':'/datastore/liu121/charEmb/aic2018cwe_charEmb.pkl'},
               'training_data':{'train_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/cwe_merged_train.pkl',
                                'dev_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/cwe_merged_dev.pkl'}}
-    GenDataGloVeCWE.stats(config)
-    # gen=GenDataGloVeCWE(config)
-    # gen.prepare_data()
+    # GenDataGloVeCWE.stats(config)
+    gen=GenDataGloVeCWE(config)
+    gen.prepare_data()
