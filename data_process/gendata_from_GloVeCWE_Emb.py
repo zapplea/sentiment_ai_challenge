@@ -67,8 +67,20 @@ class GenDataGloVeCWE:
                     else:
                         charID_ls = []
                         char_ls = list(word)
-                        for char in char_ls:
-                            charID_ls.append(self.char_to_id[char])
+                        for char_pos in range(len(char_ls)):
+                            char = char_ls[char_pos]
+                            if self.config['corpus']['mod'] == 'cwep':
+                                if char_pos == 0:
+                                    # Begin
+                                    charID_ls.append(self.char_to_id[char] * 3 - 2)
+                                elif char_pos == (len(char_ls) - 1):
+                                    # End
+                                    charID_ls.append(self.char_to_id[char] * 3)
+                                else:
+                                    # middle
+                                    charID_ls.append(self.char_to_id[char] * 3 - 1)
+                            else:
+                                charID_ls.append(self.char_to_id[char])
                         # pad char list
                         if len(charID_ls)<self.config['corpus']['max_word_len']:
                             shape = (self.config['corpus']['max_word_len'] - len(charID_ls),)
