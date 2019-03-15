@@ -147,8 +147,6 @@ class GenDataGloVeCWE:
                         for char_pos in range(len(char_ls)):
                             char = char_ls[char_pos]
                             if self.config['corpus']['mod'] == 'cwep':
-                                print('cwep')
-                                exit()
                                 if char_pos == 0:
                                     # Begin
                                     charID_ls.append(self.char_to_id[char]*3-2)
