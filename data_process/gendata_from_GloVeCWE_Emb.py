@@ -348,7 +348,6 @@ if __name__ == "__main__":
                            'dev_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/cwep_merged_dev.pkl'}}
     print('load emb from: ',emb[args.mod])
     print('out data to: ',output_path[args.mod])
-    exit()
     config = {'corpus':{'train_path':'/datastore/liu121/sentidata2/data/meituan_jieba/train_cut.pkl',
                         'val_path':'/datastore/liu121/sentidata2/data/meituan_jieba/val_cut.pkl',
                         'max_word_len':11,
