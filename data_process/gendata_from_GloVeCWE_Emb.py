@@ -342,6 +342,8 @@ if __name__ == "__main__":
                   'charEmb_path':'/datastore/liu121/charEmb/aic2018cwe_charEmb.pkl'},
            'cwep':{'wordEmb_path':'/datastore/liu121/wordEmb/aic2018cwep_wordEmb.pkl',
                    'charEmb_path':'/datastore/liu121/charEmb/aic2018cwep_charEmb.pkl'}}
+    print('load emb from: ',emb[args.mod])
+    exit()
     config = {'corpus':{'train_path':'/datastore/liu121/sentidata2/data/meituan_jieba/train_cut.pkl',
                         'val_path':'/datastore/liu121/sentidata2/data/meituan_jieba/val_cut.pkl',
                         'max_word_len':11,
