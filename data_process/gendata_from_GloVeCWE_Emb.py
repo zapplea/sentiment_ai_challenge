@@ -2,6 +2,7 @@ from os.path import join
 import pickle
 import pandas as pd
 import numpy as np
+import argparse
 
 # TODO: cwep and cwe are different.
 class GenDataGloVeCWE:
@@ -143,8 +144,22 @@ class GenDataGloVeCWE:
                     else:
                         charID_ls = []
                         char_ls = list(word)
-                        for char in char_ls:
-                            charID_ls.append(self.char_to_id[char])
+                        for char_pos in range(len(char_ls)):
+                            char = char_ls[char_pos]
+                            if self.config['corpus']['mod'] == 'cwep':
+                                print('cwep')
+                                exit()
+                                if char_pos == 0:
+                                    # Begin
+                                    charID_ls.append(self.char_to_id[char]*3-2)
+                                elif char_pos == (len(char_ls)-1):
+                                    # End
+                                    charID_ls.append(self.char_to_id[char]*3)
+                                else:
+                                    # middle
+                                    charID_ls.append(self.char_to_id[char]*3-1)
+                            else:
+                                charID_ls.append(self.char_to_id[char])
                         # pad char list
                         if len(charID_ls) < self.config['corpus']['max_word_len']:
                             shape = (self.config['corpus']['max_word_len'] - len(charID_ls),)
@@ -310,6 +325,13 @@ class GenDataGloVeCWE:
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--mod',choices=['cwe','cwep'],type=str)
+    args = parser.parse_args()
+    emb = {'cwe':{'wordEmb_path':'/datastore/liu121/wordEmb/aic2018cwe_wordEmb.pkl',
+                  'charEmb_path':'/datastore/liu121/charEmb/aic2018cwe_charEmb.pkl'},
+           'cwep':{'wordEmb_path':'/datastore/liu121/wordEmb/aic2018cwep_wordEmb.pkl',
+                   'charEmb_path':'/datastore/liu121/charEmb/aic2018cwep_charEmb.pkl'}}
     config = {'corpus':{'train_path':'/datastore/liu121/sentidata2/data/meituan_jieba/train_cut.pkl',
                         'val_path':'/datastore/liu121/sentidata2/data/meituan_jieba/val_cut.pkl',
                         'max_word_len':11,
@@ -319,9 +341,9 @@ if __name__ == "__main__":
                         'max_sentence_len':200,
                         'max_review_len':34,
                         'max_merged_review_len':1141,
+                        'mod':args.mod,
                         'old_train_data_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_train_data_withChar.pkl'},
-              'emb':{'wordEmb_path':'/datastore/liu121/wordEmb/aic2018cwe_wordEmb.pkl',
-                     'charEmb_path':'/datastore/liu121/charEmb/aic2018cwe_charEmb.pkl'},
+              'emb':emb[args.mod],
               'training_data':{'train_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/cwe_merged_train.pkl',
                                'dev_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/cwe_merged_dev.pkl'}}
     # GenDataGloVeCWE.stats(config)
