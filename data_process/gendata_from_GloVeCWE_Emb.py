@@ -342,7 +342,12 @@ if __name__ == "__main__":
                   'charEmb_path':'/datastore/liu121/charEmb/aic2018cwe_charEmb.pkl'},
            'cwep':{'wordEmb_path':'/datastore/liu121/wordEmb/aic2018cwep_wordEmb.pkl',
                    'charEmb_path':'/datastore/liu121/charEmb/aic2018cwep_charEmb.pkl'}}
+    output_path = {'cwe':{'train_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/cwe_merged_train.pkl',
+                          'dev_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/cwe_merged_dev.pkl'},
+                   'cwep':{'train_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/cwep_merged_train.pkl',
+                           'dev_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/cwep_merged_dev.pkl'}}
     print('load emb from: ',emb[args.mod])
+    print('out data to: ',output_path[args.mod])
     exit()
     config = {'corpus':{'train_path':'/datastore/liu121/sentidata2/data/meituan_jieba/train_cut.pkl',
                         'val_path':'/datastore/liu121/sentidata2/data/meituan_jieba/val_cut.pkl',
@@ -356,8 +361,7 @@ if __name__ == "__main__":
                         'mod':args.mod,
                         'old_train_data_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/tenc_merged_train_data_withChar.pkl'},
               'emb':emb[args.mod],
-              'training_data':{'train_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/cwe_merged_train.pkl',
-                               'dev_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/cwe_merged_dev.pkl'}}
+              'training_data':output_path[args.mod]}
     # GenDataGloVeCWE.stats(config)
     gen=GenDataGloVeCWE(config)
     gen.prepare_data()
