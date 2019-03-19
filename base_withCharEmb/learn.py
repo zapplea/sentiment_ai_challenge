@@ -22,6 +22,11 @@ if __name__ == "__main__":
     lr = [1e-3,1e-4,1e-5]
     reg = [1e-3,1e-4,1e-5,1e-6]
     char_vocab_size = {'cwe':9565,'cwep':28693}
+    data_file_path = {'cwe':{'train_data_file_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/cwe_merged_train.pkl',
+                             'test_data_file_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/cwe_merged_dev.pkl'},
+                      'cwep':{'train_data_file_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/cwep_merged_train.pkl',
+                             'test_data_file_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/cwep_merged_dev.pkl'}}
+    print('char mod:%s\nchar vocab size:%d'%(args.char_mod,char_vocab_size[args.char_mod]))
     config = {'model':{'biSRU':{'shared_layers_num':2,
                                 'separated_layers_num':3,
                                 'rnn_dim':500,
@@ -40,12 +45,14 @@ if __name__ == "__main__":
                        'char_dim':200,
                        'padding_char_index':0},
               'train':{'epoch_num':100,
-                       'report_filePath':'/datastore/liu121/sentidata2/report/aic_junyu',
+                       'report_rootPath':'/datastore/liu121/sentidata2/report/aic_junyu',
+                       'report_fname':'%sbaseWithMaxPoolingChar_report_reg%s_lr%s.info'%(args.char_mod,str(reg[args.reg]),str(lr[args.lr])),
+                       'sr_rootPath': '/datastore/liu121/sentidata2/result/aic_junyu',
+                       'sr_fname':'%sbaseWithMaxPoolingChar_ckpt_reg%s_lr%s/model.ckpt'%(args.char_mod,str(reg[args.reg]),str(lr[args.lr])),
                        'early_stop_limit':5,
                        'mod':1,
-                       'sr_path':'/datastore/liu121/sentidata2/result/aic_junyu',
                        'attributes_num':20,},
               'datafeeder':{'batch_size':10,
-                            'train_data_file_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/cwe_merged_train.pkl',
-                            'test_data_file_path':'/datastore/liu121/sentidata2/data/aic2018_junyu/cwe_merged_dev.pkl'}}
+                            'train_data_file_path':data_file_path[args.char_mod]['train_data_file_path'],
+                            'test_data_file_path':data_file_path[args.char_mod]['test_data_file_path']}}
     main(config)

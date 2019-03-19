@@ -2,6 +2,7 @@ import tensorflow as tf
 import numpy as np
 from metrics import Metrics
 from pathlib import Path
+import os
 
 class SentiTrain:
     def __init__(self,config,df):
@@ -9,15 +10,13 @@ class SentiTrain:
         self.df = df
         self.mt = Metrics(config['train'])
 
-        dir_ls = ['report_filePath', 'sr_path']
+        dir_ls = ['report_filePath', 'sr_rootPath']
         for name in dir_ls:
             path = Path(self.config['train'][name])
             if not path.exists():
                 path.mkdir(parents=True, exist_ok=True)
-        self.config['train']['report_filePath'] = self.config['train']['report_filePath'] + '/cwebaseWithMaxPoolingChar_report_reg%s_lr%s.info' % \
-                                               (str(self.config['model']['reg_rate']), str(self.config['model']['lr']))
-        self.config['train']['sr_path'] = self.config['train']['sr_path'] + '/cwebaseWithMaxPoolingChar_ckpt_reg%s_lr%s/model.ckpt'%\
-                                          (str(self.config['model']['reg_rate']), str(self.config['model']['lr']))
+        self.config['train']['report_filePath'] = os.path.join(self.config['train']['report_rootPath'], self.config['train']['report_fname'])
+        self.config['train']['sr_path'] = os.path.join(self.config['train']['sr_rootPath'], self.config['train']['sr_fname'])
 
         self.outf = open(self.config['train']['report_filePath'], 'w+')
 
