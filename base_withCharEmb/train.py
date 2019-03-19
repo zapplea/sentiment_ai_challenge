@@ -10,7 +10,7 @@ class SentiTrain:
         self.df = df
         self.mt = Metrics(config['train'])
 
-        dir_ls = ['report_filePath', 'sr_rootPath']
+        dir_ls = ['report_rootPath', 'sr_rootPath']
         for name in dir_ls:
             path = Path(self.config['train'][name])
             if not path.exists():
