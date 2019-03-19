@@ -17,9 +17,11 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--lr',type=int)
     parser.add_argument('--reg',type=int)
+    parser.add_argument('--char_mod',default='cwe',choices=['cwe','cwep'],type=str)
     args = parser.parse_args()
     lr = [1e-3,1e-4,1e-5]
     reg = [1e-3,1e-4,1e-5,1e-6]
+    char_vocab_size = {'cwe':9565,'cwep':28693}
     config = {'model':{'biSRU':{'shared_layers_num':2,
                                 'separated_layers_num':3,
                                 'rnn_dim':500,
@@ -34,7 +36,7 @@ if __name__ == "__main__":
                        'padding_word_index':0,
                        'clip_value':10.0,
                        'max_word_len':11,
-                       'char_vocab_size':9565,
+                       'char_vocab_size':char_vocab_size[args.char_mod],
                        'char_dim':200,
                        'padding_char_index':0},
               'train':{'epoch_num':100,
